@@ -61,8 +61,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                   key={item.name}
                   href={item.href}
                   className={`group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    item.current
-                      ? 'bg-dashboard-accent text-white'
+                    item.current === true
+                      ? 'bg-blue-600 text-white'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >

@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
     return (
       <DashboardLayout>
         <div className=\"flex items-center justify-center h-64\">
-          <div className=\"animate-spin rounded-full h-12 w-12 border-b-2 border-dashboard-accent\"></div>
+          <div className=\"animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600\"></div>
         </div>
       </DashboardLayout>
     );
@@ -138,7 +138,7 @@ const Dashboard: React.FC = () => {
             </div>
             <div className=\"text-right\">
               <div className=\"text-sm text-gray-500\">Today's Focus</div>
-              <div className=\"text-2xl font-bold text-dashboard-accent\">
+              <div className=\"text-2xl font-bold text-blue-600\">
                 {data?.todayActions.length || 0} actions
               </div>
             </div>
@@ -225,7 +225,7 @@ const Dashboard: React.FC = () => {
 
             {(data?.todayActions.length || 0) > 5 && (
               <div className=\"text-center\">
-                <button className=\"text-dashboard-accent hover:text-dashboard-accent/80 text-sm font-medium\">
+                <button className=\"text-blue-600 hover:text-blue-600/80 text-sm font-medium\">
                   View all {data?.todayActions.length} actions →
                 </button>
               </div>
