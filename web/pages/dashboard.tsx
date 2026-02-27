@@ -112,8 +112,8 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Dashboard - Taya's Prospecting Tool</title>
-        <meta name=\"description\" content=\"Daily prospecting dashboard for Taya Rich\" />
+        <title>Dashboard - Tayas Prospecting Tool</title>
+        <meta name="description" content="Daily prospecting dashboard for Taya Rich" />
       </Head>
 
       <DashboardLayout>
