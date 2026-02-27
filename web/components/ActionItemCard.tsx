@@ -70,7 +70,7 @@ const ActionItemCard: React.FC<ActionItemProps> = ({ action }) => {
   };
 
   return (
-    <div className=\"bg-white rounded-lg shadow-card hover:shadow-card-hover transition-shadow border border-gray-200\">
+    <div className=\"bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200\">
       <div className=\"p-4\">
         {/* Header */}
         <div className=\"flex items-start justify-between\">
