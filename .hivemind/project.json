@@ -1,0 +1,71 @@
+{
+  "name": "Taya Real Estate Dashboard",
+  "slug": "taya-realestate-dashboard",
+  "version": "1.0.0",
+  "type": "full-stack-web-app",
+  "description": "AI-powered prospecting dashboard for Taya Rich (REMAX Regency) targeting Merrimac, QLD 4226. Provides complete property intelligence, owner segmentation, and daily action prioritization.",
+  "client": {
+    "name": "Taya Rich",
+    "company": "REMAX Regency",
+    "target_market": "Merrimac, QLD 4226"
+  },
+  "tech_stack": {
+    "frontend": "Next.js 14 + TypeScript + Tailwind CSS",
+    "backend": "Next.js API Routes + Node.js",
+    "database": "MongoDB Atlas",
+    "authentication": "Clerk",
+    "hosting": "Vercel",
+    "ai": "OpenAI GPT-4",
+    "maps": "Google Maps API"
+  },
+  "features": [
+    "Daily prospecting dashboard",
+    "AI-powered prospect segmentation",
+    "Property intelligence integration",
+    "Call script generation",
+    "Performance analytics",
+    "Contact management",
+    "Map visualization"
+  ],
+  "development": {
+    "setup_commands": [
+      "cd web",
+      "npm install",
+      "cp ../.env.example .env.local",
+      "npm run dev"
+    ],
+    "dev_url": "http://localhost:3000",
+    "build_command": "npm run build",
+    "start_command": "npm start"
+  },
+  "deployment": {
+    "platform": "Vercel",
+    "script": "./scripts/deploy.sh production",
+    "domains": [
+      "taya-realestate-dashboard.vercel.app"
+    ]
+  },
+  "env_variables": [
+    "MONGODB_URI",
+    "CLERK_SECRET_KEY",
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+    "OPENAI_API_KEY",
+    "GOOGLE_MAPS_API_KEY",
+    "DOMAIN_API_KEY",
+    "REALESTATE_COM_AU_API_KEY"
+  ],
+  "status": "ready-for-development",
+  "priority": "high",
+  "estimated_completion": "2-3 weeks",
+  "tags": [
+    "real-estate",
+    "ai-powered",
+    "prospecting",
+    "dashboard",
+    "full-stack",
+    "next.js",
+    "mongodb"
+  ],
+  "created_at": "2025-02-27T14:52:00Z",
+  "last_updated": "2025-02-27T15:10:00Z"
+}
