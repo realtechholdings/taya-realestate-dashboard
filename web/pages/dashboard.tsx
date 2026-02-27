@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { useAuth } from '@clerk/nextjs';
-import useSWR from 'swr';
 
 // Components
 import DashboardLayout from '../components/DashboardLayout';
 import ActionItemCard from '../components/ActionItemCard';
-import PropertyMap from '../components/PropertyMap';
-import PerformanceMetrics from '../components/PerformanceMetrics';
-import ProspectSegments from '../components/ProspectSegments';
-import RecentActivity from '../components/RecentActivity';
 
 // Types
 interface ActionItem {
@@ -58,15 +52,39 @@ interface DashboardData {
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const Dashboard: React.FC = () => {
-  const { isLoaded, userId } = useAuth();
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Fetch dashboard data
-  const { data, error, isLoading } = useSWR<DashboardData>(
-    userId ? '/api/dashboard' : null,
-    fetcher,
-    { refreshInterval: 30000 } // Refresh every 30 seconds
-  );
+  // Mock data for display
+  const mockData = {
+    todayActions: [
+      {
+        id: '1',
+        title: 'Initial Contact - New Property Owner',
+        priority: 8,
+        actionType: 'First Contact',
+        propertyOwner: {
+          fullName: 'Sarah Johnson',
+          email: { address: 'sarah.johnson@email.com' },
+          phone: { mobile: '0412 345 678' },
+          prospectSegment: { category: 'Hot Prospect', score: 85 }
+        },
+        property: {
+          address: { fullAddress: '15 Woodland Drive, Merrimac QLD 4226' },
+          currentValuation: { estimate: 750000 }
+        },
+        callScript: 'Hi Sarah, this is Taya Rich from REMAX Regency...',
+        estimatedDuration: 15,
+        scheduledDate: new Date().toISOString()
+      }
+    ],
+    metrics: {
+      totalProperties: 1247,
+      totalOwners: 1156,
+      todayTasks: 12,
+      weeklyGoal: 50,
+      weeklyProgress: 68
+    }
+  };
 
   // Update current time every minute
   useEffect(() => {
@@ -75,27 +93,6 @@ const Dashboard: React.FC = () => {
     }, 60000);
     return () => clearInterval(timer);
   }, []);
-
-  if (!isLoaded || isLoading) {
-    return (
-      <DashboardLayout>
-        <div className=\"flex items-center justify-center h-64\">
-          <div className=\"animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600\"></div>
-        </div>
-      </DashboardLayout>
-    );
-  }
-
-  if (error) {
-    return (
-      <DashboardLayout>
-        <div className=\"text-center py-12\">
-          <h2 className=\"text-xl font-semibold text-red-600\">Error loading dashboard</h2>
-          <p className=\"text-gray-600 mt-2\">Please try refreshing the page</p>
-        </div>
-      </DashboardLayout>
-    );
-  }
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-AU', {
@@ -139,7 +136,7 @@ const Dashboard: React.FC = () => {
             <div className=\"text-right\">
               <div className=\"text-sm text-gray-500\">Today's Focus</div>
               <div className=\"text-2xl font-bold text-blue-600\">
-                {data?.todayActions.length || 0} actions
+                {mockData.todayActions.length || 0} actions
               </div>
             </div>
           </div>
@@ -156,7 +153,7 @@ const Dashboard: React.FC = () => {
               </div>
               <div className=\"ml-4\">
                 <p className=\"text-sm font-medium text-gray-600\">Properties</p>
-                <p className=\"text-2xl font-semibold text-gray-900\">{data?.metrics.totalProperties || 0}</p>
+                <p className=\"text-2xl font-semibold text-gray-900\">{mockData.metrics.totalProperties || 0}</p>
               </div>
             </div>
           </div>
@@ -170,7 +167,7 @@ const Dashboard: React.FC = () => {
               </div>
               <div className=\"ml-4\">
                 <p className=\"text-sm font-medium text-gray-600\">Prospects</p>
-                <p className=\"text-2xl font-semibold text-gray-900\">{data?.metrics.totalOwners || 0}</p>
+                <p className=\"text-2xl font-semibold text-gray-900\">{mockData.metrics.totalOwners || 0}</p>
               </div>
             </div>
           </div>
@@ -184,7 +181,7 @@ const Dashboard: React.FC = () => {
               </div>
               <div className=\"ml-4\">
                 <p className=\"text-sm font-medium text-gray-600\">Today's Tasks</p>
-                <p className=\"text-2xl font-semibold text-gray-900\">{data?.metrics.todayTasks || 0}</p>
+                <p className=\"text-2xl font-semibold text-gray-900\">{mockData.metrics.todayTasks || 0}</p>
               </div>
             </div>
           </div>
@@ -199,7 +196,7 @@ const Dashboard: React.FC = () => {
               <div className=\"ml-4\">
                 <p className=\"text-sm font-medium text-gray-600\">Weekly Progress</p>
                 <p className=\"text-2xl font-semibold text-gray-900\">
-                  {data?.metrics.weeklyProgress || 0}%
+                  {mockData.metrics.weeklyProgress || 0}%
                 </p>
               </div>
             </div>
@@ -213,20 +210,20 @@ const Dashboard: React.FC = () => {
             <div className=\"flex items-center justify-between\">
               <h2 className=\"text-xl font-semibold text-gray-900\">Priority Actions Today</h2>
               <span className=\"text-sm text-gray-500\">
-                {data?.todayActions.length || 0} remaining
+                {mockData.todayActions.length || 0} remaining
               </span>
             </div>
 
             <div className=\"space-y-4\">
-              {data?.todayActions.slice(0, 5).map((action) => (
+              {mockData.todayActions.slice(0, 5).map((action) => (
                 <ActionItemCard key={action.id} action={action} />
               ))}
             </div>
 
-            {(data?.todayActions.length || 0) > 5 && (
+            {(mockData.todayActions.length || 0) > 5 && (
               <div className=\"text-center\">
                 <button className=\"text-blue-600 hover:text-blue-600/80 text-sm font-medium\">
-                  View all {data?.todayActions.length} actions →
+                  View all {mockData.todayActions.length} actions →
                 </button>
               </div>
             )}
@@ -234,14 +231,23 @@ const Dashboard: React.FC = () => {
 
           {/* Prospect Segments & Recent Activity */}
           <div className=\"space-y-6\">
-            <ProspectSegments segments={data?.segments || []} />
-            <RecentActivity activities={data?.recentActivity || []} />
+            <div className=\"bg-white p-6 rounded-lg shadow-md\">
+              <h3 className=\"text-lg font-semibold mb-4\">Prospect Segments</h3>
+              <p className=\"text-gray-500\">Component coming soon...</p>
+            </div>
+            <div className=\"bg-white p-6 rounded-lg shadow-md\">
+              <h3 className=\"text-lg font-semibold mb-4\">Recent Activity</h3>
+              <p className=\"text-gray-500\">Component coming soon...</p>
+            </div>
           </div>
         </div>
 
         {/* Performance Metrics */}
         <div className=\"mt-8\">
-          <PerformanceMetrics />
+          <div className=\"bg-white p-6 rounded-lg shadow-md\">
+            <h3 className=\"text-lg font-semibold mb-4\">Performance Metrics</h3>
+            <p className=\"text-gray-500\">Component coming soon...</p>
+          </div>
         </div>
       </DashboardLayout>
     </>
