@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "name": "taya-realestate-dashboard",
+  "framework": "nextjs",
+  "env": {
+    "MONGODB_URI": "@mongodb-uri",
+    "DATABASE_NAME": "@database-name",
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "@clerk-publishable-key",
+    "CLERK_SECRET_KEY": "@clerk-secret-key",
+    "OPENAI_API_KEY": "@openai-api-key",
+    "GOOGLE_MAPS_API_KEY": "@google-maps-api-key"
+  },
+  "regions": ["syd1"]
+}
