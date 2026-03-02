@@ -3,88 +3,178 @@ import Head from 'next/head';
 
 // Components
 import DashboardLayout from '../components/DashboardLayout';
-import ActionItemCard from '../components/ActionItemCard';
+import PrioritySection from '../components/PrioritySection';
+import PriorityItem from '../components/PriorityItem';
 
-// Types
-interface ActionItem {
-  id: string;
-  title: string;
-  priority: number;
-  actionType: string;
-  propertyOwner: {
-    fullName: string;
-    email?: { address: string };
-    phone?: { mobile: string };
-    prospectSegment: { category: string; score: number };
-  };
-  property: {
-    address: { fullAddress: string };
-    currentValuation?: { estimate: number };
-  };
-  callScript: string;
-  estimatedDuration: number;
-  scheduledDate: string;
-}
-
-interface DashboardData {
-  todayActions: ActionItem[];
-  metrics: {
-    totalProperties: number;
-    totalOwners: number;
-    todayTasks: number;
-    weeklyGoal: number;
-    weeklyProgress: number;
-  };
-  segments: {
-    name: string;
-    count: number;
-    percentage: number;
-    color: string;
-  }[];
-  recentActivity: {
-    type: string;
-    description: string;
-    timestamp: string;
-  }[];
-}
-
-// Data fetcher
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+// Mock data generator for demo
+const generateMockData = () => ({
+  urgent: [
+    {
+      id: '1',
+      title: 'Listing Expires Tomorrow - 15 Woodland Drive',
+      description: 'Contract expires 3/03/26. Owner Sarah Johnson needs renewal decision.',
+      contact: {
+        name: 'Sarah Johnson',
+        phone: '0412 345 678',
+        email: 'sarah.johnson@email.com'
+      },
+      property: {
+        address: '15 Woodland Drive, Merrimac QLD 4226',
+        value: 750000
+      },
+      dueDate: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
+      urgency: 'critical' as const,
+      actionType: 'Contract Renewal'
+    },
+    {
+      id: '2', 
+      title: 'Hot Prospect Callback Overdue',
+      description: 'Marcus Williams called 48 hours ago about selling. Flagged as ready to list.',
+      contact: {
+        name: 'Marcus Williams',
+        phone: '0423 567 890',
+        email: 'marcus.w@email.com'
+      },
+      property: {
+        address: '8 Ocean View Terrace, Burleigh Heads QLD 4220',
+        value: 950000
+      },
+      dueDate: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+      urgency: 'high' as const,
+      actionType: 'Follow-up Call'
+    }
+  ],
+  followUp: [
+    {
+      id: '3',
+      title: 'New Lead - Property Valuation Request',  
+      description: 'Online inquiry for property appraisal. Potential listing opportunity.',
+      contact: {
+        name: 'Jennifer Chen',
+        phone: '0434 789 012', 
+        email: 'jen.chen@email.com'
+      },
+      property: {
+        address: '22 Palm Beach Road, Palm Beach QLD 4221',
+        value: 1200000
+      },
+      dueDate: new Date(Date.now() + 172800000).toISOString(), // 2 days from now
+      urgency: 'medium' as const,
+      actionType: 'First Contact'
+    },
+    {
+      id: '4',
+      title: 'Investment Buyer Referral',
+      description: 'Client David referred his brother looking for investment property under $600k.',
+      contact: {
+        name: 'Michael Thompson',
+        phone: '0445 678 123',
+        email: 'mthompson@email.com'
+      },
+      dueDate: new Date(Date.now() + 259200000).toISOString(), // 3 days
+      urgency: 'medium' as const,
+      actionType: 'Buyer Consultation'
+    }
+  ],
+  scheduled: [
+    {
+      id: '5',
+      title: 'Property Inspection - 44 Main Street',
+      description: 'Routine inspection scheduled. Owner wants market update afterward.',
+      contact: {
+        name: 'Robert Kim',
+        phone: '0456 789 234',
+        email: 'rkim@email.com'
+      },
+      property: {
+        address: '44 Main Street, Southport QLD 4215', 
+        value: 680000
+      },
+      dueDate: new Date(Date.now() + 345600000).toISOString(), // 4 days
+      urgency: 'low' as const,
+      actionType: 'Property Inspection'
+    },
+    {
+      id: '6',
+      title: 'Photography Session - New Listing',
+      description: 'Professional photos for 12 Sunset Boulevard. Staging complete.',
+      property: {
+        address: '12 Sunset Boulevard, Broadbeach QLD 4218',
+        value: 1450000
+      },
+      dueDate: new Date(Date.now() + 432000000).toISOString(), // 5 days  
+      urgency: 'low' as const,
+      actionType: 'Marketing Preparation'
+    }
+  ],
+  communications: [
+    {
+      id: '7',
+      title: 'Tenant Maintenance Query',
+      description: 'Tenant at 18 River Road reporting air conditioning issue.',
+      contact: {
+        name: 'Lisa Martinez',
+        phone: '0467 890 345',
+        email: 'lisa.martinez@email.com'
+      },
+      property: {
+        address: '18 River Road, Nerang QLD 4211',
+        value: 520000
+      },
+      urgency: 'medium' as const,
+      actionType: 'Tenant Communication'
+    },
+    {
+      id: '8',
+      title: 'Owner Rent Review Response',
+      description: 'Owner at 33 Park View wants to discuss rent increase proposal.',
+      contact: {
+        name: 'Andrew Wilson',
+        phone: '0478 901 456',
+        email: 'awilson@email.com'
+      },
+      property: {
+        address: '33 Park View, Varsity Lakes QLD 4227',
+        value: 640000
+      },
+      urgency: 'low' as const,
+      actionType: 'Owner Communication'
+    }
+  ],
+  opportunities: [
+    {
+      id: '9',
+      title: 'Off-Market Inquiry - Waterfront Property',
+      description: 'High-net-worth client seeking premium waterfront. Budget $2M+.',
+      contact: {
+        name: 'Catherine Roberts',
+        phone: '0489 012 567',
+        email: 'croberts@email.com'
+      },
+      urgency: 'high' as const,
+      actionType: 'Premium Buyer'
+    },
+    {
+      id: '10',
+      title: 'Expired Listing - Competitor Property',
+      description: 'Ray White listing expired last week. Owners may be open to changing agents.',
+      contact: {
+        name: 'Paul & Maria Santos',
+        phone: '0490 123 678'
+      },
+      property: {
+        address: '7 Hillside Crescent, Mudgeeraba QLD 4213',
+        value: 785000
+      },
+      urgency: 'medium' as const,
+      actionType: 'Prospect Opportunity'
+    }
+  ]
+});
 
 const Dashboard: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-
-  // Mock data for display
-  const mockData = {
-    todayActions: [
-      {
-        id: '1',
-        title: 'Initial Contact - New Property Owner',
-        priority: 8,
-        actionType: 'First Contact',
-        propertyOwner: {
-          fullName: 'Sarah Johnson',
-          email: { address: 'sarah.johnson@email.com' },
-          phone: { mobile: '0412 345 678' },
-          prospectSegment: { category: 'Hot Prospect', score: 85 }
-        },
-        property: {
-          address: { fullAddress: '15 Woodland Drive, Merrimac QLD 4226' },
-          currentValuation: { estimate: 750000 }
-        },
-        callScript: 'Hi Sarah, this is Taya Rich from REMAX Regency...',
-        estimatedDuration: 15,
-        scheduledDate: new Date().toISOString()
-      }
-    ],
-    metrics: {
-      totalProperties: 1247,
-      totalOwners: 1156,
-      todayTasks: 12,
-      weeklyGoal: 50,
-      weeklyProgress: 68
-    }
-  };
+  const [mockData] = useState(generateMockData());
 
   // Update current time every minute
   useEffect(() => {
@@ -98,159 +188,196 @@ const Dashboard: React.FC = () => {
     return date.toLocaleTimeString('en-AU', {
       hour: '2-digit',
       minute: '2-digit',
-      timeZone: 'Australia/Brisbane'
+      hour12: false
     });
   };
 
-  const getGreeting = () => {
-    const hour = currentTime.getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-AU', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
+  const totalItems = mockData.urgent.length + mockData.followUp.length + 
+                    mockData.scheduled.length + mockData.communications.length + 
+                    mockData.opportunities.length;
+
   return (
-    <>
+    <DashboardLayout>
       <Head>
-        <title>Dashboard - Tayas Prospecting Tool</title>
-        <meta name="description" content="Daily prospecting dashboard for Taya Rich" />
+        <title>Taya Real Estate - Priority Dashboard</title>
       </Head>
 
-      <DashboardLayout>
+      <div className="space-y-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                {getGreeting()}, Taya! 👋
+              <h1 className="text-2xl font-bold text-gray-900">
+                Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}, Taya! 
               </h1>
               <p className="text-gray-600 mt-1">
-                {currentTime.toLocaleDateString('en-AU', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })} • {formatTime(currentTime)}
+                {formatDate(currentTime)} • {formatTime(currentTime)}
               </p>
             </div>
             <div className="text-right">
-              <div className="text-sm text-gray-500">Today's Focus</div>
-              <div className="text-2xl font-bold text-blue-600">
-                {mockData.todayActions.length || 0} actions
-              </div>
+              <div className="text-3xl font-bold text-blue-600">{totalItems}</div>
+              <div className="text-sm text-gray-500">Total Priority Items</div>
+            </div>
+          </div>
+
+          {/* Quick counts */}
+          <div className="mt-6 flex items-center space-x-6 text-sm">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <span className="font-medium">{mockData.urgent.length} Urgent</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+              <span className="font-medium">{mockData.followUp.length} Follow-up</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <span className="font-medium">{mockData.scheduled.length} Scheduled</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <span className="font-medium">{mockData.communications.length} Communications</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span className="font-medium">{mockData.opportunities.length} Opportunities</span>
             </div>
           </div>
         </div>
 
-        {/* Quick Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow-card p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Properties</p>
-                <p className="text-2xl font-semibold text-gray-900">{mockData.metrics.totalProperties || 0}</p>
-              </div>
-            </div>
-          </div>
+        {/* Priority Sections */}
+        <div className="space-y-6">
+          {/* URGENT - Immediate Action Required */}
+          <PrioritySection
+            title="URGENT - IMMEDIATE ACTION"
+            color="red"
+            count={mockData.urgent.length}
+            emoji="🔴"
+          >
+            {mockData.urgent.map((item) => (
+              <PriorityItem
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                contact={item.contact}
+                property={item.property}
+                dueDate={item.dueDate}
+                urgency={item.urgency}
+                actionType={item.actionType}
+                onComplete={() => console.log('Complete:', item.id)}
+                onDefer={() => console.log('Defer:', item.id)}
+              />
+            ))}
+          </PrioritySection>
 
-          <div className="bg-white rounded-lg shadow-card p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Prospects</p>
-                <p className="text-2xl font-semibold text-gray-900">{mockData.metrics.totalOwners || 0}</p>
-              </div>
-            </div>
-          </div>
+          {/* FOLLOW-UP REQUIRED */}
+          <PrioritySection
+            title="FOLLOW-UP REQUIRED"
+            color="orange" 
+            count={mockData.followUp.length}
+            emoji="🟠"
+          >
+            {mockData.followUp.map((item) => (
+              <PriorityItem
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                contact={item.contact}
+                property={item.property}
+                dueDate={item.dueDate}
+                urgency={item.urgency}
+                actionType={item.actionType}
+                onComplete={() => console.log('Complete:', item.id)}
+                onDefer={() => console.log('Defer:', item.id)}
+              />
+            ))}
+          </PrioritySection>
 
-          <div className="bg-white rounded-lg shadow-card p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-yellow-100 rounded-lg">
-                <svg className="w-3 h-3 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Today's Tasks</p>
-                <p className="text-2xl font-semibold text-gray-900">{mockData.metrics.todayTasks || 0}</p>
-              </div>
-            </div>
-          </div>
+          {/* SCHEDULED ACTIVITIES */}
+          <PrioritySection
+            title="SCHEDULED ACTIVITIES"
+            color="yellow"
+            count={mockData.scheduled.length}
+            emoji="🟡"
+          >
+            {mockData.scheduled.map((item) => (
+              <PriorityItem
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                contact={item.contact}
+                property={item.property}
+                dueDate={item.dueDate}
+                urgency={item.urgency}
+                actionType={item.actionType}
+                onComplete={() => console.log('Complete:', item.id)}
+                onDefer={() => console.log('Defer:', item.id)}
+              />
+            ))}
+          </PrioritySection>
 
-          <div className="bg-white rounded-lg shadow-card p-6">
-            <div className="flex items-center">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <svg className="w-3 h-3 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Weekly Progress</p>
-                <p className="text-2xl font-semibold text-gray-900">
-                  {mockData.metrics.weeklyProgress || 0}%
-                </p>
-              </div>
-            </div>
-          </div>
+          {/* COMMUNICATIONS */}
+          <PrioritySection
+            title="COMMUNICATIONS"
+            color="blue"
+            count={mockData.communications.length}
+            emoji="🔵"
+          >
+            {mockData.communications.map((item) => (
+              <PriorityItem
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                contact={item.contact}
+                property={item.property}
+                dueDate={item.dueDate}
+                urgency={item.urgency}
+                actionType={item.actionType}
+                onComplete={() => console.log('Complete:', item.id)}
+                onDefer={() => console.log('Defer:', item.id)}
+              />
+            ))}
+          </PrioritySection>
+
+          {/* NEW OPPORTUNITIES */}
+          <PrioritySection
+            title="NEW OPPORTUNITIES"
+            color="green"
+            count={mockData.opportunities.length}
+            emoji="🟢"
+          >
+            {mockData.opportunities.map((item) => (
+              <PriorityItem
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                contact={item.contact}
+                property={item.property}
+                dueDate={item.dueDate}
+                urgency={item.urgency}
+                actionType={item.actionType}
+                onComplete={() => console.log('Complete:', item.id)}
+                onDefer={() => console.log('Defer:', item.id)}
+              />
+            ))}
+          </PrioritySection>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Priority Actions */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900">Priority Actions Today</h2>
-              <span className="text-sm text-gray-500">
-                {mockData.todayActions.length || 0} remaining
-              </span>
-            </div>
-
-            <div className="space-y-4">
-              {mockData.todayActions.slice(0, 5).map((action) => (
-                <ActionItemCard key={action.id} action={action} />
-              ))}
-            </div>
-
-            {(mockData.todayActions.length || 0) > 5 && (
-              <div className="text-center">
-                <button className="text-blue-600 hover:text-blue-600/80 text-sm font-medium">
-                  View all {mockData.todayActions.length} actions →
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Prospect Segments & Recent Activity */}
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-4">Prospect Segments</h3>
-              <p className="text-gray-500">Component coming soon...</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-              <p className="text-gray-500">Component coming soon...</p>
-            </div>
-          </div>
+        {/* Footer */}
+        <div className="text-center text-sm text-gray-500 py-8">
+          <p>Priority Dashboard • Items clear once actioned • Last updated: {formatTime(currentTime)}</p>
         </div>
-
-        {/* Performance Metrics */}
-        <div className="mt-8">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
-            <p className="text-gray-500">Component coming soon...</p>
-          </div>
-        </div>
-      </DashboardLayout>
-    </>
+      </div>
+    </DashboardLayout>
   );
 };
 

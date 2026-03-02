@@ -1,189 +1,255 @@
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 
-// Mock data (same as dashboard)
-const mockData = {
-  metrics: {
-    totalProperties: 1247,
-    prospects: 892,
-    hotLeads: 67,
-    conversions: 23
-  },
-  actionItems: [
-    {
-      id: '1',
-      type: 'call' as const,
-      priority: 'high' as const,
-      title: 'Call Sarah Johnson',
-      description: 'Follow up on property upgrade inquiry',
-      propertyAddress: '123 Sunset Drive, Merrimac',
-      ownerName: 'Sarah Johnson',
-      estimatedValue: 850000,
-      contactInfo: '+61 7 1234 5678',
-      callScript: 'Hi Sarah, this is [Your Name] from REMAX Regency. I wanted to follow up on your interest in upgrading your property...',
-      lastContact: '3 days ago',
-      nextAction: 'Schedule property assessment'
-    }
-  ]
-};
+const Home: React.FC = () => {
+  const currentTime = new Date();
+  const greeting = currentTime.getHours() < 12 ? 'Good Morning' : 
+                   currentTime.getHours() < 17 ? 'Good Afternoon' : 'Good Evening';
+  
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-AU', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+  };
 
-export default function Home() {
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-AU', {
+      weekday: 'long',
+      year: 'numeric', 
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  // Mock priority counts for the preview
+  const priorityCounts = {
+    urgent: 2,
+    followUp: 2, 
+    scheduled: 2,
+    communications: 2,
+    opportunities: 2
+  };
+
+  const totalItems = Object.values(priorityCounts).reduce((sum, count) => sum + count, 0);
+
   return (
     <>
       <Head>
-        <title>Taya's Real Estate Dashboard - Icon Test</title>
+        <title>Taya Real Estate Dashboard</title>
+        <meta name="description" content="Priority-driven real estate management dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="min-h-screen bg-gray-100">
-        {/* Header */}
-        <div className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center py-6">
-              <div className="flex items-center">
-                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">R</span>
-                </div>
-                <div className="ml-3">
-                  <h1 className="text-2xl font-bold text-gray-900">REMAX Regency</h1>
-                  <p className="text-sm text-gray-600">Taya Rich - Prospecting Dashboard</p>
-                </div>
-              </div>
-              <div className="text-sm text-gray-500">
-                Icons reduced from 24px to 12px (50% smaller)
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Morning Briefing */}
-          <div className="bg-white rounded-lg shadow-card p-6 mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-gray-900">🌅 Good Morning, Taya!</h2>
-              <span className="text-sm text-gray-500">Thursday, Feb 27, 2026</span>
-            </div>
-            <p className="text-gray-600">
-              You have <span className="font-semibold text-blue-600">3 high-priority calls</span> to make today and 
-              <span className="font-semibold text-green-600"> 5 new prospects</span> in Merrimac. 
-              The market is showing strong activity with 2 new listings this week.
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div className="container mx-auto px-4 py-12">
+          {/* Welcome Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              {greeting}, Taya! 👋
+            </h1>
+            <p className="text-xl text-gray-600">
+              {formatDate(currentTime)} • {formatTime(currentTime)}
             </p>
           </div>
 
-          {/* Quick Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-lg shadow-card p-6">
-              <div className="flex items-center">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Properties</p>
-                  <p className="text-2xl font-semibold text-gray-900">{mockData.metrics.totalProperties}</p>
+          {/* Main Dashboard Card */}
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+              {/* Header */}
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold">Priority Dashboard</h2>
+                    <p className="text-blue-100 mt-1">
+                      Real estate management powered by ShieldPro methodology
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-3xl font-bold">{totalItems}</div>
+                    <div className="text-blue-100 text-sm">Priority Items</div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="bg-white rounded-lg shadow-card p-6">
-              <div className="flex items-center">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Prospects</p>
-                  <p className="text-2xl font-semibold text-gray-900">{mockData.metrics.prospects}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-card p-6">
-              <div className="flex items-center">
-                <div className="p-2 bg-yellow-100 rounded-lg">
-                  <svg className="w-3 h-3 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Hot Leads</p>
-                  <p className="text-2xl font-semibold text-gray-900">{mockData.metrics.hotLeads}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-card p-6">
-              <div className="flex items-center">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <svg className="w-3 h-3 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Conversions</p>
-                  <p className="text-2xl font-semibold text-gray-900">{mockData.metrics.conversions}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Size Comparison Section */}
-          <div className="bg-white rounded-lg shadow-card p-6 mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Icon Size Comparison</h2>
-            <div className="grid grid-cols-2 gap-8">
-              <div className="text-center">
-                <h3 className="font-medium mb-4 text-gray-700">BEFORE: Original Size (24px)</h3>
-                <div className="p-4 bg-red-50 rounded-lg inline-block">
-                  <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7" />
-                  </svg>
-                </div>
-                <p className="text-sm text-gray-600 mt-2">Too large - dominates screen</p>
-              </div>
-              <div className="text-center">
-                <h3 className="font-medium mb-4 text-gray-700">AFTER: Reduced Size (12px)</h3>
-                <div className="p-4 bg-green-50 rounded-lg inline-block">
-                  <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7" />
-                  </svg>
-                </div>
-                <p className="text-sm text-gray-600 mt-2">Perfect - visible but space-efficient</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Action Items */}
-          <div className="bg-white rounded-lg shadow-card p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Today's Priority Actions</h2>
-            <div className="space-y-4">
-              <div className="border-l-4 border-red-500 bg-red-50 p-4 rounded-r-lg">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center mb-2">
-                      <svg className="w-3 h-3 mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                      <h3 className="font-medium text-gray-900">Call Sarah Johnson</h3>
-                      <div className="w-3 h-3 rounded-full bg-red-500 ml-2"></div>
+              {/* Priority Overview */}
+              <div className="p-8">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+                  {/* Urgent */}
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-2xl">🔴</div>
+                        <div className="text-xs font-medium text-red-700 mt-2">URGENT</div>
+                      </div>
+                      <div className="text-2xl font-bold text-red-600">
+                        {priorityCounts.urgent}
+                      </div>
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">Follow up on property upgrade inquiry</p>
-                    <p className="text-sm text-gray-800 font-medium">123 Sunset Drive, Merrimac</p>
+                    <div className="text-xs text-red-600 mt-2">
+                      Immediate Action
+                    </div>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <svg className="w-3 h-3 mr-1 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    High Priority
+
+                  {/* Follow-up */}
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-2xl">🟠</div>
+                        <div className="text-xs font-medium text-orange-700 mt-2">FOLLOW-UP</div>
+                      </div>
+                      <div className="text-2xl font-bold text-orange-600">
+                        {priorityCounts.followUp}
+                      </div>
+                    </div>
+                    <div className="text-xs text-orange-600 mt-2">
+                      Required
+                    </div>
+                  </div>
+
+                  {/* Scheduled */}
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-2xl">🟡</div>
+                        <div className="text-xs font-medium text-yellow-700 mt-2">SCHEDULED</div>
+                      </div>
+                      <div className="text-2xl font-bold text-yellow-600">
+                        {priorityCounts.scheduled}
+                      </div>
+                    </div>
+                    <div className="text-xs text-yellow-600 mt-2">
+                      Activities
+                    </div>
+                  </div>
+
+                  {/* Communications */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-2xl">🔵</div>
+                        <div className="text-xs font-medium text-blue-700 mt-2">COMMS</div>
+                      </div>
+                      <div className="text-2xl font-bold text-blue-600">
+                        {priorityCounts.communications}
+                      </div>
+                    </div>
+                    <div className="text-xs text-blue-600 mt-2">
+                      Responses
+                    </div>
+                  </div>
+
+                  {/* Opportunities */}
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-2xl">🟢</div>
+                        <div className="text-xs font-medium text-green-700 mt-2">OPPS</div>
+                      </div>
+                      <div className="text-2xl font-bold text-green-600">
+                        {priorityCounts.opportunities}
+                      </div>
+                    </div>
+                    <div className="text-xs text-green-600 mt-2">
+                      New Leads
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Button */}
+                <div className="text-center">
+                  <Link href="/dashboard">
+                    <a className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors shadow-lg">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                      Enter Priority Dashboard
+                    </a>
+                  </Link>
+                </div>
+
+                {/* Features List */}
+                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0">
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-900">Color-Coded Priority System</h3>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Inspired by ShieldPro's proven field service methodology, adapted for real estate workflow
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-900">Smart Task Prioritization</h3>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Never miss urgent listings, hot prospects, or critical deadlines again
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0">
+                      <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2M7 4h10M7 4l-2 16h14L17 4M9 9v6M15 9v6" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-900">Property & Contact Management</h3>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Full property details, contact info, and valuations at your fingertips
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0">
+                      <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-900">Performance Tracking</h3>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Clear visibility into daily progress and workflow efficiency
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center mt-12">
+            <p className="text-sm text-gray-500">
+              Powered by REMAX Regency • Built with ShieldPro methodology
+            </p>
           </div>
         </div>
       </div>
     </>
   );
-}
+};
+
+export default Home;
