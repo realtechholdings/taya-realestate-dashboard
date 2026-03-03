@@ -1,23 +1,18 @@
 {
   "version": 2,
-  "framework": "nextjs",
-  "buildCommand": "cd web && npm run build",
-  "devCommand": "cd web && npm run dev", 
-  "installCommand": "cd web && npm install",
-  "outputDirectory": "web/.next",
-  "env": {
-    "MONGODB_URI": "@mongodb-uri",
-    "DATABASE_NAME": "@database-name",
-    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "@clerk-publishable-key",
-    "CLERK_SECRET_KEY": "@clerk-secret-key",
-    "OPENAI_API_KEY": "@openai-api-key",
-    "GOOGLE_MAPS_API_KEY": "@google-maps-api-key"
-  },
-  "functions": {
-    "web/pages/api/**/*.ts": {
-      "runtime": "nodejs18.x",
-      "maxDuration": 30
+  "builds": [
+    {
+      "src": "web/package.json",
+      "use": "@vercel/next",
+      "config": {
+        "distDir": ".next"
+      }
     }
-  },
-  "regions": ["syd1"]
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "web/$1"
+    }
+  ]
 }
