@@ -116,8 +116,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 style={{
                   backgroundColor: isActive(item.href) 
                     ? '#ff1200' 
-                    : 'transparent',
-                  ':hover': !isActive(item.href) ? { backgroundColor: 'rgba(255,18,0,0.15)' } : undefined
+                    : 'transparent'
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive(item.href)) {
