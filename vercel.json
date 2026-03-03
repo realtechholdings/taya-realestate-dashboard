@@ -1,22 +1,10 @@
 {
   "version": 2,
-  "name": "taya-realestate-dashboard",
-  "builds": [
-    {
-      "src": "web/next.config.js",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "web/pages/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "web/$1"
-    }
-  ],
+  "framework": "nextjs",
+  "buildCommand": "cd web && npm run build",
+  "devCommand": "cd web && npm run dev", 
+  "installCommand": "cd web && npm install",
+  "outputDirectory": "web/.next",
   "env": {
     "MONGODB_URI": "@mongodb-uri",
     "DATABASE_NAME": "@database-name",
@@ -31,12 +19,5 @@
       "maxDuration": 30
     }
   },
-  "regions": ["syd1"],
-  "projectSettings": {
-    "framework": "nextjs",
-    "buildCommand": "cd web && npm run build",
-    "devCommand": "cd web && npm run dev",
-    "installCommand": "cd web && npm install",
-    "outputDirectory": "web/.next"
-  }
+  "regions": ["syd1"]
 }
