@@ -339,7 +339,7 @@ const Dashboard: React.FC = () => {
                 description={item.description}
                 contact={item.contact}
                 property={item.property}
-                dueDate={item.dueDate}
+                dueDate={(item as any).dueDate}
                 urgency={item.urgency}
                 actionType={item.actionType}
                 onComplete={() => console.log('Complete:', item.id)}
@@ -362,7 +362,7 @@ const Dashboard: React.FC = () => {
                 description={item.description}
                 contact={item.contact}
                 property={item.property}
-                dueDate={item.dueDate}
+                dueDate={(item as any).dueDate}
                 urgency={item.urgency}
                 actionType={item.actionType}
                 onComplete={() => console.log('Complete:', item.id)}
