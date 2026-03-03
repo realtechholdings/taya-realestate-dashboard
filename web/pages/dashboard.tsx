@@ -297,8 +297,7 @@ const Dashboard: React.FC = () => {
                       key={action.id}
                       className="border-t border-gray-700 hover:bg-opacity-50 cursor-pointer transition-colors"
                       style={{ 
-                        backgroundColor: index % 2 === 0 ? 'transparent' : 'rgba(0,26,77,0.3)',
-                        ':hover': { backgroundColor: 'rgba(255,18,0,0.08)' }
+                        backgroundColor: index % 2 === 0 ? 'transparent' : 'rgba(0,26,77,0.3)'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = 'rgba(255,18,0,0.08)';
