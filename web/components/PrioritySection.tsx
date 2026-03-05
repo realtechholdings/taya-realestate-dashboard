@@ -20,8 +20,13 @@ const PrioritySection: React.FC<PrioritySectionProps> = ({ title, color, count, 
 
   return (
     <div
-      className="rounded-xl overflow-hidden"
-      style={{ border: `1px solid ${c.border}`, backgroundColor: '#ffffff' }}
+      style={{ 
+        backgroundColor: '#ffffff', 
+        boxShadow: '0 2px 8px rgba(0,14,53,0.07), 0 0 0 1px rgba(0,14,53,0.07)', 
+        border: 'none', 
+        borderRadius: '14px', 
+        overflow: 'hidden' 
+      }}
     >
       <div
         className="flex items-center justify-between px-5 py-3"

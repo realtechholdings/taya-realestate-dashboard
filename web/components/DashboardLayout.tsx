@@ -35,27 +35,41 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         className="fixed inset-y-0 left-0 flex flex-col"
         style={{
           width: '220px',
-          backgroundColor: '#ebe7de',
+          backgroundColor: '#e8e4dc',
           borderRight: '1px solid rgba(0,14,53,0.12)',
+          boxShadow: '3px 0 12px rgba(0,14,53,0.10)',
         }}
       >
         {/* Logo */}
         <div
-          className="flex flex-col px-5 py-5"
-          style={{ borderBottom: '1px solid rgba(0,14,53,0.10)' }}
+          className="flex items-center px-5 py-4"
+          style={{ borderBottom: '1px solid rgba(0,14,53,0.12)', minHeight: '72px' }}
         >
-          <span
-            className="font-bold tracking-widest text-xs uppercase"
-            style={{ color: '#000e35' }}
-          >
-            RE/MAX
-          </span>
-          <span
-            className="text-xs mt-0.5"
-            style={{ color: 'rgba(0,14,53,0.45)' }}
-          >
-            Regency
-          </span>
+          <img
+            src="/images/remax-regency.png"
+            alt="RE/MAX Regency"
+            style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
+            onError={(e) => {
+              // Fallback to text logo if image fails to load
+              e.currentTarget.style.display = 'none';
+              const fallback = e.currentTarget.parentNode?.querySelector('.logo-fallback');
+              if (fallback) fallback.style.display = 'block';
+            }}
+          />
+          <div className="logo-fallback flex flex-col" style={{ display: 'none' }}>
+            <span
+              className="font-bold tracking-widest text-xs uppercase"
+              style={{ color: '#000e35' }}
+            >
+              RE/MAX
+            </span>
+            <span
+              className="text-xs mt-0.5"
+              style={{ color: 'rgba(0,14,53,0.45)' }}
+            >
+              Regency
+            </span>
+          </div>
         </div>
 
         {/* Nav */}
@@ -67,10 +81,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 <span
                   className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors"
                   style={{
-                    color: isActive ? '#000e35' : 'rgba(0,14,53,0.55)',
-                    backgroundColor: isActive ? 'rgba(0,14,53,0.09)' : 'transparent',
-                    borderLeft: isActive ? '2px solid #660000' : '2px solid transparent',
-                    fontWeight: isActive ? 600 : 400,
+                    color: isActive ? '#000e35' : 'rgba(0,14,53,0.60)',
+                    backgroundColor: isActive ? 'rgba(0,14,53,0.10)' : 'transparent',
+                    borderLeft: isActive ? '3px solid #660000' : '3px solid transparent',
+                    fontWeight: isActive ? 700 : 500,
                   }}
                   onMouseEnter={e => {
                     if (!isActive) {
@@ -81,7 +95,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                   onMouseLeave={e => {
                     if (!isActive) {
                       (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
-                      (e.currentTarget as HTMLElement).style.color = 'rgba(0,14,53,0.55)';
+                      (e.currentTarget as HTMLElement).style.color = 'rgba(0,14,53,0.60)';
                     }
                   }}
                 >
@@ -103,10 +117,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               TR
             </div>
             <div>
-              <div className="text-xs font-semibold" style={{ color: '#000e35' }}>
+              <div className="text-xs" style={{ color: '#000e35', fontWeight: 600 }}>
                 Taya Rich
               </div>
-              <div className="text-xs" style={{ color: 'rgba(0,14,53,0.45)' }}>
+              <div className="text-xs" style={{ color: 'rgba(0,14,53,0.50)' }}>
                 RE/MAX Regency
               </div>
             </div>
@@ -117,7 +131,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Main content */}
       <div
         className="flex-1 overflow-y-auto"
-        style={{ marginLeft: '220px', backgroundColor: '#f7f5ee' }}
+        style={{ marginLeft: '220px', backgroundColor: '#f5f2eb' }}
       >
         {children}
       </div>

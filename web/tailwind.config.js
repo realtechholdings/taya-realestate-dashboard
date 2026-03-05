@@ -18,7 +18,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        sans: ['Inter Tight', 'system-ui', 'sans-serif'],
         mono: ['DM Mono', 'Monaco', 'monospace'],
       },
       spacing: {

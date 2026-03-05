@@ -105,17 +105,17 @@ const Dashboard: React.FC = () => {
       
       {/* Header */}
       <div
-        className="flex items-center justify-between px-8 h-16 sticky top-0 z-10"
+        className="flex items-center justify-between px-8 h-[72px] sticky top-0 z-10"
         style={{
-          backgroundColor: '#f7f5ee',
+          backgroundColor: '#f5f2eb',
           borderBottom: '1px solid rgba(0,14,53,0.12)',
         }}
       >
         <div>
-          <h1 className="text-lg font-semibold" style={{ color: '#000e35' }}>
-            Good morning, Taya 👋
+          <h1 className="text-xl" style={{ color: '#000e35', fontWeight: 700 }}>
+            Good morning, Taya
           </h1>
-          <p className="text-xs mt-0.5" style={{ color: 'rgba(0,14,53,0.45)' }}>
+          <p className="text-xs mt-0.5" style={{ color: 'rgba(0,14,53,0.50)' }}>
             {formatDate(currentTime)} · Merrimac QLD 4226
           </p>
         </div>
@@ -140,7 +140,7 @@ const Dashboard: React.FC = () => {
           </button>
           <button
             className="flex items-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
-            style={{ backgroundColor: '#660000', color: '#f7f5ee' }}
+            style={{ backgroundColor: '#660000', color: '#f7f5ee', fontWeight: 600 }}
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#880000')}
             onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#660000')}
           >
@@ -150,29 +150,39 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="px-8 pt-6 pb-10">
+      <div className="px-8 pt-6 pb-20">
         {/* Stat cards */}
         <div className="grid grid-cols-4 gap-4 mb-5">
           {summaryCards.map(card => (
             <div
               key={card.label}
-              className="rounded-xl p-5"
               style={{
                 backgroundColor: '#ffffff',
-                border: '1px solid rgba(0,14,53,0.13)',
-                boxShadow: '0 1px 3px rgba(0,14,53,0.06)',
+                borderRadius: '14px',
+                padding: '24px',
+                border: 'none',
+                boxShadow: '0 2px 8px rgba(0,14,53,0.08), 0 0 0 1px rgba(0,14,53,0.07)',
+                transition: 'all 0.15s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,14,53,0.12), 0 0 0 1px rgba(0,14,53,0.08)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,14,53,0.08), 0 0 0 1px rgba(0,14,53,0.07)';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
               <p
-                className="text-xs uppercase tracking-wider mb-2"
-                style={{ color: 'rgba(0,14,53,0.4)' }}
+                className="text-[10px] uppercase tracking-widest mb-2"
+                style={{ color: 'rgba(0,14,53,0.42)' }}
               >
                 {card.label}
               </p>
-              <p className="text-3xl font-bold font-data" style={{ color: '#000e35' }}>
+              <p className="text-[32px]" style={{ color: '#000e35', fontWeight: 700, fontFamily: 'DM Mono, monospace' }}>
                 {card.value}
               </p>
-              <p className="text-xs mt-1" style={{ color: 'rgba(0,14,53,0.4)' }}>
+              <p className="text-xs mt-1" style={{ color: 'rgba(0,14,53,0.42)' }}>
                 {card.sub}
               </p>
             </div>
@@ -182,10 +192,12 @@ const Dashboard: React.FC = () => {
         {/* Urgent banner */}
         {urgentCount > 0 && (
           <div
-            className="flex items-center justify-between px-5 py-3 rounded-xl mb-5"
+            className="flex items-center justify-between px-5 py-3 mb-5"
             style={{
-              backgroundColor: 'rgba(102,0,0,0.06)',
-              border: '1px solid rgba(102,0,0,0.15)',
+              backgroundColor: '#ffffff',
+              border: '1px solid rgba(102,0,0,0.18)',
+              boxShadow: '0 1px 4px rgba(102,0,0,0.06)',
+              borderRadius: '12px',
             }}
           >
             <div className="flex items-center gap-2.5">
@@ -235,11 +247,12 @@ const Dashboard: React.FC = () => {
 
           {/* Table */}
           <div
-            className="rounded-xl overflow-hidden"
             style={{
               backgroundColor: '#ffffff',
-              border: '1px solid rgba(0,14,53,0.11)',
-              boxShadow: '0 1px 3px rgba(0,14,53,0.05)',
+              borderRadius: '14px',
+              border: 'none',
+              boxShadow: '0 2px 8px rgba(0,14,53,0.08), 0 0 0 1px rgba(0,14,53,0.07)',
+              overflow: 'hidden',
             }}
           >
             {/* Header */}
@@ -254,7 +267,7 @@ const Dashboard: React.FC = () => {
               {['NAME & ADDRESS','SEGMENT','CONFIDENCE','VALUATION','TALKING POINT','LAST CONTACT','STATUS',''].map(h => (
                 <span
                   key={h}
-                  className="text-xs uppercase tracking-wider font-medium"
+                  className="text-[10px] uppercase tracking-widest font-medium"
                   style={{ color: 'rgba(0,14,53,0.38)' }}
                 >
                   {h}
@@ -271,7 +284,7 @@ const Dashboard: React.FC = () => {
               return (
                 <div
                   key={action.id}
-                  className="grid px-5 py-4 cursor-pointer transition-colors"
+                  className="grid px-5 py-[18px] cursor-pointer transition-colors"
                   style={{
                     gridTemplateColumns: '2fr 1.1fr 0.9fr 1fr 1.6fr 0.8fr 1.1fr 80px',
                     borderBottom: i < dailyActions.length - 1 ? '1px solid rgba(0,14,53,0.06)' : 'none',
@@ -282,8 +295,8 @@ const Dashboard: React.FC = () => {
                   onMouseLeave={() => setHoveredRow(null)}
                 >
                   <div>
-                    <div className="text-sm font-medium" style={{ color: '#000e35' }}>{action.name}</div>
-                    <div className="text-xs mt-0.5 font-data" style={{ color: 'rgba(0,14,53,0.45)' }}>{action.address}</div>
+                    <div className="text-sm" style={{ color: '#000e35', fontWeight: 600 }}>{action.name}</div>
+                    <div className="mt-0.5 font-data" style={{ fontSize: '11px', color: 'rgba(0,14,53,0.48)' }}>{action.address}</div>
                   </div>
 
                   <div>
@@ -364,11 +377,12 @@ const Dashboard: React.FC = () => {
 
         {/* Bottom stats */}
         <div
-          className="flex items-center gap-8 px-6 py-4 rounded-xl"
+          className="flex items-center gap-8 px-6 py-4"
           style={{
             backgroundColor: '#ffffff',
-            border: '1px solid rgba(0,14,53,0.11)',
-            boxShadow: '0 1px 3px rgba(0,14,53,0.05)',
+            border: 'none',
+            boxShadow: '0 2px 8px rgba(0,14,53,0.08), 0 0 0 1px rgba(0,14,53,0.07)',
+            borderRadius: '14px',
           }}
         >
           {[
