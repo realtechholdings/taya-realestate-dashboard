@@ -52,7 +52,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             onError={(e) => {
               // Fallback to text logo if image fails to load
               e.currentTarget.style.display = 'none';
-              const fallback = e.currentTarget.parentNode?.querySelector('.logo-fallback');
+              const fallback = e.currentTarget.parentNode?.querySelector('.logo-fallback') as HTMLElement;
               if (fallback) fallback.style.display = 'block';
             }}
           />
