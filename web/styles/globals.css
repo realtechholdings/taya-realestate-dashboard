@@ -5,21 +5,26 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
+  --bg-base: #f0ede6;
+  --bg-content: #f7f5ee;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf9f6;
+  --border: rgba(0,14,53,0.10);
+  --border-strong: rgba(0,14,53,0.18);
   --navy: #000e35;
+  --navy-60: rgba(0,14,53,0.6);
+  --navy-40: rgba(0,14,53,0.4);
+  --navy-20: rgba(0,14,53,0.15);
+  --navy-08: rgba(0,14,53,0.06);
   --darkred: #660000;
   --red: #ff1200;
   --blue: #0043ff;
-  --cream: #f7f5ee;
-  --cream-60: rgba(247,245,238,0.6);
-  --cream-45: rgba(247,245,238,0.45);
-  --cream-12: rgba(247,245,238,0.12);
-  --cream-08: rgba(247,245,238,0.08);
-  --cream-05: rgba(247,245,238,0.05);
+  --sidebar-bg: #f0ede6;
 }
 
 body {
-  background-color: var(--navy);
-  color: var(--cream);
+  background-color: var(--bg-base);
+  color: var(--navy);
   font-family: 'DM Sans', system-ui, sans-serif;
 }
 

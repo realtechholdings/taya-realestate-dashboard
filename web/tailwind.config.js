@@ -14,20 +14,7 @@ module.exports = {
           red: '#ff1200',
           blue: '#0043ff',
           cream: '#f7f5ee',
-        },
-        dashboard: {
-          primary: '#1f2937',
-          secondary: '#374151',
-          accent: '#3b82f6',
-          success: '#10b981',
-          warning: '#f59e0b',
-          danger: '#ef4444',
-        },
-        property: {
-          hot: '#dc2626',
-          warm: '#ea580c',
-          cool: '#0284c7',
-          cold: '#6b7280',
+          creamDark: '#f0ede6',
         },
       },
       fontFamily: {
