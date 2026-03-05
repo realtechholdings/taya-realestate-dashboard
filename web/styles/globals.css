@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --navy: #000e35;
+  --darkred: #660000;
+  --red: #ff1200;
+  --blue: #0043ff;
+  --cream: #f7f5ee;
+  --cream-60: rgba(247,245,238,0.6);
+  --cream-45: rgba(247,245,238,0.45);
+  --cream-12: rgba(247,245,238,0.12);
+  --cream-08: rgba(247,245,238,0.08);
+  --cream-05: rgba(247,245,238,0.05);
+}
+
+body {
+  background-color: var(--navy);
+  color: var(--cream);
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+.font-data {
+  font-family: 'DM Mono', monospace;
+}

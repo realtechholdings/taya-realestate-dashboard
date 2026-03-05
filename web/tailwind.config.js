@@ -8,13 +8,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // REMAX brand colors
         remax: {
-          red: '#E31E24',
-          blue: '#003DA5',
-          gold: '#FFD100',
+          navy: '#000e35',
+          darkred: '#660000',
+          red: '#ff1200',
+          blue: '#0043ff',
+          cream: '#f7f5ee',
         },
-        // Custom dashboard colors
         dashboard: {
           primary: '#1f2937',
           secondary: '#374151',
@@ -23,7 +23,6 @@ module.exports = {
           warning: '#f59e0b',
           danger: '#ef4444',
         },
-        // Property status colors
         property: {
           hot: '#dc2626',
           warm: '#ea580c',
@@ -32,8 +31,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['Monaco', 'Menlo', 'monospace'],
+        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+        mono: ['DM Mono', 'Monaco', 'monospace'],
       },
       spacing: {
         '18': '4.5rem',

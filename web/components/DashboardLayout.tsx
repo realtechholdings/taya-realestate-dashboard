@@ -1,68 +1,114 @@
 import React, { ReactNode } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import {
+  LayoutDashboard,
+  ListChecks,
+  Map,
+  Building2,
+  PieChart,
+  BarChart3,
+  Settings,
+} from 'lucide-react';
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
+const navItems = [
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/priority-list', label: 'Priority List', icon: ListChecks },
+  { href: '/map', label: 'Map View', icon: Map },
+  { href: '/properties', label: 'Properties', icon: Building2 },
+  { href: '/segments', label: 'Segments', icon: PieChart },
+  { href: '/reports', label: 'Reports', icon: BarChart3 },
+  { href: '/settings', label: 'Settings', icon: Settings },
+];
+
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+  const router = useRouter();
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: '#000e35' }}>
       {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center px-6 py-4 border-b border-gray-200">
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">TR</span>
-              </div>
-              <div className="ml-3">
-                <div className="text-sm font-semibold text-gray-900">Taya Rich</div>
-                <div className="text-xs text-gray-500">REMAX Regency</div>
-              </div>
+      <div
+        className="fixed inset-y-0 left-0 flex flex-col"
+        style={{ width: '220px', backgroundColor: '#660000' }}
+      >
+        {/* Logo block */}
+        <div
+          className="flex flex-col px-5 py-5"
+          style={{ borderBottom: '1px solid rgba(247,245,238,0.12)' }}
+        >
+          <span
+            className="font-bold tracking-widest text-xs uppercase"
+            style={{ color: '#f7f5ee' }}
+          >
+            RE/MAX
+          </span>
+          <span
+            className="text-xs mt-0.5"
+            style={{ color: 'rgba(247,245,238,0.45)' }}
+          >
+            Regency
+          </span>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 px-3 py-5 space-y-0.5">
+          {navItems.map(({ href, label, icon: Icon }) => {
+            const isActive = router.pathname === href;
+            return (
+              <Link key={href} href={href}>
+                <span
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors"
+                  style={{
+                    color: isActive ? '#f7f5ee' : 'rgba(247,245,238,0.6)',
+                    backgroundColor: isActive ? 'rgba(247,245,238,0.12)' : 'transparent',
+                    borderLeft: isActive ? '2px solid #ff1200' : '2px solid transparent',
+                    fontWeight: isActive ? 500 : 400,
+                  }}
+                  onMouseEnter={e => {
+                    if (!isActive) {
+                      (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(247,245,238,0.07)';
+                      (e.currentTarget as HTMLElement).style.color = '#f7f5ee';
+                    }
+                  }}
+                  onMouseLeave={e => {
+                    if (!isActive) {
+                      (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
+                      (e.currentTarget as HTMLElement).style.color = 'rgba(247,245,238,0.6)';
+                    }
+                  }}
+                >
+                  <Icon size={15} strokeWidth={1.8} />
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* User block */}
+        <div className="p-4" style={{ borderTop: '1px solid rgba(247,245,238,0.12)' }}>
+          <div className="flex items-center gap-3">
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
+              style={{ backgroundColor: '#ff1200', color: '#f7f5ee' }}
+            >
+              TR
             </div>
-          </div>
-
-          {/* Navigation */}
-          <nav className="flex-1 px-4 py-4 space-y-2">
-            <a href="/dashboard" className="group flex items-center px-3 py-2 text-sm font-medium rounded-md bg-blue-600 text-white">
-              Dashboard
-            </a>
-            <a href="/properties" className="group flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-              Properties
-            </a>
-            <a href="/prospects" className="group flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-              Prospects
-            </a>
-            <a href="/actions" className="group flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-              Actions
-            </a>
-            <a href="/analytics" className="group flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-              Analytics
-            </a>
-            <a href="/map" className="group flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900">
-              Map
-            </a>
-          </nav>
-
-          {/* User Profile */}
-          <div className="p-4 border-t border-gray-200">
-            <div className="flex items-center">
-              <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-              <div className="ml-3 flex-1">
-                <div className="text-sm font-medium text-gray-900">Taya Rich</div>
-                <div className="text-xs text-gray-500">Merrimac Specialist</div>
-              </div>
+            <div>
+              <div className="text-xs font-medium" style={{ color: '#f7f5ee' }}>Taya Rich</div>
+              <div className="text-xs" style={{ color: 'rgba(247,245,238,0.45)' }}>RE/MAX Regency</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="pl-64">
-        <main className="py-8 px-8">
-          {children}
-        </main>
+      {/* Main content */}
+      <div className="flex-1 overflow-y-auto" style={{ marginLeft: '220px' }}>
+        {children}
       </div>
     </div>
   );
