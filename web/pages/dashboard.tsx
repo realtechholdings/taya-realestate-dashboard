@@ -73,11 +73,11 @@ const dailyActions = [
 ];
 
 const statusConfig: Record<string, { label: string; color: string; bg: string; border: string }> = {
-  urgent: { label: 'URGENT', color: '#660000', bg: 'rgba(102,0,0,0.08)', border: 'rgba(102,0,0,0.20)' },
-  'follow-up': { label: 'FOLLOW-UP', color: '#92400e', bg: 'rgba(146,64,14,0.08)', border: 'rgba(146,64,14,0.20)' },
-  scheduled: { label: 'SCHEDULED', color: '#0043ff', bg: 'rgba(0,67,255,0.07)', border: 'rgba(0,67,255,0.18)' },
-  message: { label: 'MESSAGE', color: 'rgba(0,14,53,0.55)', bg: 'rgba(0,14,53,0.05)', border: 'rgba(0,14,53,0.12)' },
-  opportunity: { label: 'OPPORTUNITY', color: '#000e35', bg: 'rgba(0,14,53,0.06)', border: 'rgba(0,14,53,0.14)' },
+  urgent: { label: 'URGENT', color: '#660000', bg: 'rgba(102,0,0,0.10)', border: 'rgba(102,0,0,0.25)' },
+  'follow-up': { label: 'FOLLOW-UP', color: '#92400e', bg: 'rgba(146,64,14,0.10)', border: 'rgba(146,64,14,0.25)' },
+  scheduled: { label: 'SCHEDULED', color: '#003399', bg: 'rgba(0,51,153,0.09)', border: 'rgba(0,51,153,0.22)' },
+  message: { label: 'MESSAGE', color: 'rgba(0,14,53,0.65)', bg: 'rgba(0,14,53,0.07)', border: 'rgba(0,14,53,0.15)' },
+  opportunity: { label: 'OPPORTUNITY', color: '#000e35', bg: 'rgba(0,14,53,0.07)', border: 'rgba(0,14,53,0.16)' },
 };
 
 const summaryCards = [
@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
         className="flex items-center justify-between px-8 h-16 sticky top-0 z-10"
         style={{
           backgroundColor: '#f7f5ee',
-          borderBottom: '1px solid rgba(0,14,53,0.09)',
+          borderBottom: '1px solid rgba(0,14,53,0.12)',
         }}
       >
         <div>
@@ -140,9 +140,9 @@ const Dashboard: React.FC = () => {
           </button>
           <button
             className="flex items-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
-            style={{ backgroundColor: '#000e35', color: '#f7f5ee' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#660000')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#000e35')}
+            style={{ backgroundColor: '#660000', color: '#f7f5ee' }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#880000')}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#660000')}
           >
             <Plus size={14} />
             Add Contact
@@ -159,7 +159,8 @@ const Dashboard: React.FC = () => {
               className="rounded-xl p-5"
               style={{
                 backgroundColor: '#ffffff',
-                border: '1px solid rgba(0,14,53,0.09)',
+                border: '1px solid rgba(0,14,53,0.13)',
+                boxShadow: '0 1px 3px rgba(0,14,53,0.06)',
               }}
             >
               <p
@@ -237,7 +238,8 @@ const Dashboard: React.FC = () => {
             className="rounded-xl overflow-hidden"
             style={{
               backgroundColor: '#ffffff',
-              border: '1px solid rgba(0,14,53,0.09)',
+              border: '1px solid rgba(0,14,53,0.11)',
+              boxShadow: '0 1px 3px rgba(0,14,53,0.05)',
             }}
           >
             {/* Header */}
@@ -264,7 +266,7 @@ const Dashboard: React.FC = () => {
             {dailyActions.map((action, i) => {
               const st = statusConfig[action.status];
               const isHovered = hoveredRow === action.id;
-              const confColor = action.confidence >= 80 ? '#000e35' : action.confidence >= 60 ? 'rgba(0,14,53,0.5)' : 'rgba(0,14,53,0.3)';
+              const confColor = action.confidence >= 80 ? '#000e35' : action.confidence >= 60 ? 'rgba(0,14,53,0.45)' : 'rgba(0,14,53,0.25)';
 
               return (
                 <div
@@ -298,7 +300,7 @@ const Dashboard: React.FC = () => {
 
                   <div>
                     <span className="text-sm font-data" style={{ color: '#000e35' }}>{action.confidence}%</span>
-                    <div className="mt-1 h-1 w-16 rounded-full" style={{ backgroundColor: 'rgba(0,14,53,0.08)' }}>
+                    <div className="mt-1 h-1 w-16 rounded-full" style={{ backgroundColor: 'rgba(0,14,53,0.10)' }}>
                       <div
                         className="h-1 rounded-full"
                         style={{ width: `${action.confidence}%`, backgroundColor: confColor }}
@@ -365,7 +367,8 @@ const Dashboard: React.FC = () => {
           className="flex items-center gap-8 px-6 py-4 rounded-xl"
           style={{
             backgroundColor: '#ffffff',
-            border: '1px solid rgba(0,14,53,0.09)',
+            border: '1px solid rgba(0,14,53,0.11)',
+            boxShadow: '0 1px 3px rgba(0,14,53,0.05)',
           }}
         >
           {[

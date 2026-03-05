@@ -35,8 +35,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         className="fixed inset-y-0 left-0 flex flex-col"
         style={{
           width: '220px',
-          backgroundColor: '#f0ede6',
-          borderRight: '1px solid rgba(0,14,53,0.10)',
+          backgroundColor: '#ebe7de',
+          borderRight: '1px solid rgba(0,14,53,0.12)',
         }}
       >
         {/* Logo */}
@@ -68,7 +68,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                   className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors"
                   style={{
                     color: isActive ? '#000e35' : 'rgba(0,14,53,0.55)',
-                    backgroundColor: isActive ? 'rgba(0,14,53,0.07)' : 'transparent',
+                    backgroundColor: isActive ? 'rgba(0,14,53,0.09)' : 'transparent',
                     borderLeft: isActive ? '2px solid #660000' : '2px solid transparent',
                     fontWeight: isActive ? 600 : 400,
                   }}
