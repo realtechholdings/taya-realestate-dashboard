@@ -101,7 +101,7 @@ async function callGoogleGeocodingAPI(address: string): Promise<GeocodeResult> {
   try {
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(searchAddress)}&key=${apiKey}`;
     const response = await fetch(url);
-    const data: GoogleGeocodingResult = await response.json();
+    const data = await response.json() as GoogleGeocodingResult;
 
     if (data.status === 'OK' && data.results.length > 0) {
       const result = data.results[0];
