@@ -11,7 +11,7 @@
     "type-check": "tsc --noEmit",
     "db:migrate": "node ../scripts/migrate.js",
     "db:seed": "node ../scripts/seed.js",
-    "import:corelogic": "ts-node scripts/import-corelogic.ts"
+    "import:corelogic": "ts-node --transpile-only --compiler-options '{\"module\":\"commonjs\",\"moduleResolution\":\"node\",\"esModuleInterop\":true}' scripts/import-corelogic.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.1",
@@ -61,6 +61,19 @@
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.0.4",
     "ts-node": "^10.9.1"
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "es2020",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./src/*"]
+      }
+    }
   },
   "engines": {
     "node": ">=18.0.0"
