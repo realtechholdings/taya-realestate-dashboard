@@ -5,8 +5,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg-base: #f0ede6;
-  --bg-content: #f7f5ee;
+  --bg-base: #dedad2;
+  --bg-content: #e8e4dc;
   --bg-card: #ffffff;
   --bg-card-hover: #faf9f6;
   --border: rgba(0,14,53,0.10);

@@ -29,26 +29,25 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const router = useRouter();
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: '#f0ede6' }}>
+    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: '#dedad2' }}>
       {/* Sidebar */}
       <div
         className="fixed inset-y-0 left-0 flex flex-col"
         style={{
           width: '220px',
-          backgroundColor: '#e8e4dc',
+          backgroundColor: '#1a1412',
           borderRight: '1px solid rgba(0,14,53,0.12)',
-          boxShadow: '3px 0 12px rgba(0,14,53,0.10)',
         }}
       >
         {/* Logo */}
         <div
           className="flex items-center px-5 py-4"
-          style={{ borderBottom: '1px solid rgba(0,14,53,0.12)', minHeight: '72px' }}
+          style={{ borderBottom: '1px solid rgba(247,245,238,0.10)', minHeight: '72px' }}
         >
           <img
             src="/images/remax-regency.png"
             alt="RE/MAX Regency"
-            style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
+            style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }}
             onError={(e) => {
               // Fallback to text logo if image fails to load
               e.currentTarget.style.display = 'none';
@@ -59,13 +58,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           <div className="logo-fallback flex flex-col" style={{ display: 'none' }}>
             <span
               className="font-bold tracking-widest text-xs uppercase"
-              style={{ color: '#000e35' }}
+              style={{ color: '#f7f5ee' }}
             >
               RE/MAX
             </span>
             <span
               className="text-xs mt-0.5"
-              style={{ color: 'rgba(0,14,53,0.45)' }}
+              style={{ color: 'rgba(247,245,238,0.45)' }}
             >
               Regency
             </span>
@@ -81,21 +80,21 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 <span
                   className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors"
                   style={{
-                    color: isActive ? '#000e35' : 'rgba(0,14,53,0.60)',
-                    backgroundColor: isActive ? 'rgba(0,14,53,0.10)' : 'transparent',
+                    color: isActive ? '#f7f5ee' : 'rgba(247,245,238,0.55)',
+                    backgroundColor: isActive ? 'rgba(247,245,238,0.12)' : 'transparent',
                     borderLeft: isActive ? '3px solid #660000' : '3px solid transparent',
-                    fontWeight: isActive ? 700 : 500,
+                    fontWeight: isActive ? 600 : 500,
                   }}
                   onMouseEnter={e => {
                     if (!isActive) {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(0,14,53,0.05)';
-                      (e.currentTarget as HTMLElement).style.color = '#000e35';
+                      (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(247,245,238,0.08)';
+                      (e.currentTarget as HTMLElement).style.color = '#f7f5ee';
                     }
                   }}
                   onMouseLeave={e => {
                     if (!isActive) {
                       (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
-                      (e.currentTarget as HTMLElement).style.color = 'rgba(0,14,53,0.60)';
+                      (e.currentTarget as HTMLElement).style.color = 'rgba(247,245,238,0.55)';
                     }
                   }}
                 >
@@ -108,7 +107,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         </nav>
 
         {/* User block */}
-        <div className="p-4" style={{ borderTop: '1px solid rgba(0,14,53,0.10)' }}>
+        <div className="p-4" style={{ borderTop: '1px solid rgba(247,245,238,0.10)' }}>
           <div className="flex items-center gap-3">
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
@@ -117,10 +116,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               TR
             </div>
             <div>
-              <div className="text-xs" style={{ color: '#000e35', fontWeight: 600 }}>
+              <div className="text-xs" style={{ color: '#f7f5ee', fontWeight: 600 }}>
                 Taya Rich
               </div>
-              <div className="text-xs" style={{ color: 'rgba(0,14,53,0.50)' }}>
+              <div className="text-xs" style={{ color: 'rgba(247,245,238,0.45)' }}>
                 RE/MAX Regency
               </div>
             </div>
@@ -131,7 +130,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Main content */}
       <div
         className="flex-1 overflow-y-auto"
-        style={{ marginLeft: '220px', backgroundColor: '#f5f2eb' }}
+        style={{ marginLeft: '220px', backgroundColor: '#e8e4dc' }}
       >
         {children}
       </div>
