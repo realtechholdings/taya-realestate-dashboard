@@ -17,7 +17,7 @@ import { Property, ImportSummary, ImportIssueDocument } from '@/types';
 // Configure multer for file upload
 const upload = multer({ 
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
   fileFilter: (req, file, cb) => {
     if (file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
       cb(null, true);
@@ -257,9 +257,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 }
 
-// Configure Next.js to handle file uploads
+// Configure Next.js to handle large file uploads
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // Disable default parser, using multer instead
+    responseLimit: false, // Allow large responses
   },
+  // Increase payload limit for Vercel
+  maxDuration: 300, // 5 minutes timeout for large imports
 };
