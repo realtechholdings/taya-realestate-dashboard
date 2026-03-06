@@ -15,9 +15,23 @@ const STREET_TYPE_ABBREV: Record<string, string> = {
   'HWY': 'Highway'
 };
 
-// Convert ALL CAPS to Title Case
+// Convert ALL CAPS to Title Case with proper handling of Mc/Mac/O' prefixes
 export function toTitleCase(str: string): string {
-  return str.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+  let result = str.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+  
+  // Handle Scottish/Irish name prefixes
+  result = result
+    // Handle Mc prefixes: McCormick, McConnell, etc.
+    .replace(/\bMc([a-z])/g, 'Mc$1'.replace('Mc' + '$1', 'Mc' + '$1'.toUpperCase()))
+    .replace(/\bMc([a-z])/g, (match, p1) => 'Mc' + p1.toUpperCase())
+    
+    // Handle Mac prefixes: MacDonald, MacLeod, etc.
+    .replace(/\bMac([a-z])/g, (match, p1) => 'Mac' + p1.toUpperCase())
+    
+    // Handle O' prefixes: O'Connor, O'Brien, etc.
+    .replace(/\bO'([a-z])/g, (match, p1) => "O'" + p1.toUpperCase());
+    
+  return result;
 }
 
 // Parse owner names and convert to Title Case
