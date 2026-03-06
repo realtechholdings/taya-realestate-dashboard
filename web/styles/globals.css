@@ -2,32 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  --bg-base: #dedad2;
-  --bg-content: #e8e4dc;
-  --bg-card: #ffffff;
-  --bg-card-hover: #faf9f6;
-  --border: rgba(0,14,53,0.10);
-  --border-strong: rgba(0,14,53,0.18);
-  --navy: #000e35;
-  --navy-60: rgba(0,14,53,0.6);
-  --navy-40: rgba(0,14,53,0.4);
-  --navy-20: rgba(0,14,53,0.15);
-  --navy-08: rgba(0,14,53,0.06);
-  --darkred: #660000;
-  --red: #ff1200;
-  --blue: #0043ff;
-  --sidebar-bg: #f0ede6;
+  --color-bg: #000e35;
+  --color-sidebar: #660000;
+  --color-active: #ff1200;
+  --color-text: #f7f5ee;
+  --color-blue: #0043ff;
+  --color-card: #0a1a4a;
+  --color-border: #1a2d6b;
+  --color-muted: #8a9bc4;
 }
 
 body {
-  background-color: var(--bg-base);
-  color: var(--navy);
-  font-family: 'Inter Tight', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
 }
 
-.font-data {
-  font-family: 'DM Mono', monospace;
+h1, h2, h3, h4, h5, h6, .label {
+  font-family: 'Syne', sans-serif;
 }
