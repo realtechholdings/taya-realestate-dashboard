@@ -11,7 +11,8 @@
     "type-check": "tsc --noEmit",
     "db:migrate": "node ../scripts/migrate.js",
     "db:seed": "node ../scripts/seed.js",
-    "import:corelogic": "ts-node --transpile-only --compiler-options '{\"module\":\"commonjs\",\"moduleResolution\":\"node\",\"esModuleInterop\":true}' scripts/import-corelogic.ts"
+    "import:corelogic": "ts-node --transpile-only --compiler-options '{\"module\":\"commonjs\",\"moduleResolution\":\"node\",\"esModuleInterop\":true}' scripts/import-corelogic.ts",
+    "check:gates": "ts-node --transpile-only --compiler-options '{\"module\":\"commonjs\",\"moduleResolution\":\"node\",\"esModuleInterop\":true}' scripts/check-2a-gate.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.1",
