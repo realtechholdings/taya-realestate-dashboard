@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   LayoutDashboard,
-  ListChecks,
+  ClipboardList,
   Map,
   Building2,
   PieChart,
-  BarChart3,
   Settings,
 } from 'lucide-react';
 
@@ -16,89 +15,104 @@ interface DashboardLayoutProps {
 }
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/priority-list', label: 'Priority List', icon: ListChecks },
-  { href: '/map', label: 'Map View', icon: Map },
-  { href: '/properties', label: 'Properties', icon: Building2 },
-  { href: '/segments', label: 'Segments', icon: PieChart },
-  { href: '/reports', label: 'Reports', icon: BarChart3 },
-  { href: '/settings', label: 'Settings', icon: Settings },
+  { href: '/dashboard',     label: 'Dashboard',    icon: LayoutDashboard },
+  { href: '/priority-list', label: 'Priority List', icon: ClipboardList },
+  { href: '/map',           label: 'Map View',      icon: Map },
+  { href: '/properties',    label: 'Properties',    icon: Building2 },
+  { href: '/segments',      label: 'Segments',      icon: PieChart },
+  { href: '/admin',         label: 'Admin',         icon: Settings },
 ];
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const router = useRouter();
 
   return (
-    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: '#dedad2' }}>
-      {/* Sidebar */}
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', backgroundColor: '#e8e4dc' }}>
+
+      {/* ── Sidebar ── */}
       <div
-        className="fixed inset-y-0 left-0 flex flex-col"
         style={{
-          width: '220px',
+          width: '240px',
+          flexShrink: 0,
+          height: '100vh',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          display: 'flex',
+          flexDirection: 'column',
           backgroundColor: '#1a1412',
-          borderRight: '1px solid rgba(0,14,53,0.12)',
         }}
       >
-        {/* Logo */}
+        {/* Logo/branding block */}
         <div
-          className="flex items-center px-5 py-4"
-          style={{ borderBottom: '1px solid rgba(247,245,238,0.10)', minHeight: '72px' }}
+          style={{
+            padding: '20px 20px 18px',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
+          }}
         >
-          <img
-            src="/images/remax-regency.png"
-            alt="RE/MAX Regency"
-            style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }}
-            onError={(e) => {
-              // Fallback to text logo if image fails to load
-              e.currentTarget.style.display = 'none';
-              const fallback = e.currentTarget.parentNode?.querySelector('.logo-fallback') as HTMLElement;
-              if (fallback) fallback.style.display = 'block';
+          <div
+            style={{
+              fontFamily: "'Inter Tight', sans-serif",
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#f7f3ee',
+              letterSpacing: '-0.01em',
             }}
-          />
-          <div className="logo-fallback flex flex-col" style={{ display: 'none' }}>
-            <span
-              className="font-bold tracking-widest text-xs uppercase"
-              style={{ color: '#f7f5ee' }}
-            >
-              RE/MAX
-            </span>
-            <span
-              className="text-xs mt-0.5"
-              style={{ color: 'rgba(247,245,238,0.45)' }}
-            >
-              Regency
-            </span>
+          >
+            RE/MAX Regency
+          </div>
+          <div
+            style={{
+              fontFamily: "'Inter Tight', sans-serif",
+              fontSize: '11px',
+              fontWeight: 400,
+              color: '#9c958f',
+              marginTop: '2px',
+            }}
+          >
+            Merrimac Dashboard
           </div>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 px-3 py-5 space-y-0.5">
+        {/* Navigation */}
+        <nav style={{ flex: 1, padding: '12px 8px', overflowY: 'auto' }}>
           {navItems.map(({ href, label, icon: Icon }) => {
             const isActive = router.pathname === href;
             return (
-              <Link key={href} href={href}>
+              <Link key={href} href={href} style={{ textDecoration: 'none' }}>
                 <span
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors"
                   style={{
-                    color: isActive ? '#f7f5ee' : 'rgba(247,245,238,0.55)',
-                    backgroundColor: isActive ? 'rgba(247,245,238,0.12)' : 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '10px 16px',
+                    marginBottom: '2px',
+                    borderRadius: '8px',
+                    fontFamily: "'Inter Tight', sans-serif",
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                    textDecoration: 'none',
                     borderLeft: isActive ? '3px solid #660000' : '3px solid transparent',
-                    fontWeight: isActive ? 600 : 500,
+                    backgroundColor: isActive ? 'rgba(102,0,0,0.15)' : 'transparent',
+                    color: isActive ? '#f7f3ee' : '#f7f3ee',
+                    opacity: isActive ? 1 : 0.65,
                   }}
                   onMouseEnter={e => {
                     if (!isActive) {
-                      (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(247,245,238,0.08)';
-                      (e.currentTarget as HTMLElement).style.color = '#f7f5ee';
+                      (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.05)';
+                      (e.currentTarget as HTMLElement).style.opacity = '0.9';
                     }
                   }}
                   onMouseLeave={e => {
                     if (!isActive) {
                       (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
-                      (e.currentTarget as HTMLElement).style.color = 'rgba(247,245,238,0.55)';
+                      (e.currentTarget as HTMLElement).style.opacity = '0.65';
                     }
                   }}
                 >
-                  <Icon size={15} strokeWidth={1.8} />
+                  <Icon size={16} strokeWidth={1.8} />
                   {label}
                 </span>
               </Link>
@@ -106,34 +120,91 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           })}
         </nav>
 
-        {/* User block */}
-        <div className="p-4" style={{ borderTop: '1px solid rgba(247,245,238,0.10)' }}>
-          <div className="flex items-center gap-3">
+        {/* User profile block */}
+        <div
+          style={{
+            padding: '16px 20px',
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {/* Avatar */}
             <div
-              className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold"
-              style={{ backgroundColor: '#660000', color: '#f7f5ee' }}
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                background: 'rgba(102,0,0,0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+                fontFamily: "'Inter Tight', sans-serif",
+                fontSize: '13px',
+                fontWeight: 600,
+                color: '#f7f3ee',
+              }}
             >
               TR
             </div>
-            <div>
-              <div className="text-xs" style={{ color: '#f7f5ee', fontWeight: 600 }}>
+
+            {/* Name & role */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  fontFamily: "'Inter Tight', sans-serif",
+                  fontSize: '13px',
+                  fontWeight: 500,
+                  color: '#f7f3ee',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
                 Taya Rich
               </div>
-              <div className="text-xs" style={{ color: 'rgba(247,245,238,0.45)' }}>
+              <div
+                style={{
+                  fontFamily: "'Inter Tight', sans-serif",
+                  fontSize: '10px',
+                  color: '#9c958f',
+                  marginTop: '1px',
+                }}
+              >
                 RE/MAX Regency
               </div>
             </div>
           </div>
+
+          {/* Log out */}
+          <button
+            style={{
+              fontFamily: "'Inter Tight', sans-serif",
+              fontSize: '12px',
+              color: '#9c958f',
+              background: 'none',
+              border: 'none',
+              padding: '8px 0 0',
+              cursor: 'pointer',
+            }}
+          >
+            Log out
+          </button>
         </div>
       </div>
 
-      {/* Main content */}
-      <div
-        className="flex-1 overflow-y-auto"
-        style={{ marginLeft: '220px', backgroundColor: '#e8e4dc' }}
+      {/* ── Main content ── */}
+      <main
+        style={{
+          flex: 1,
+          marginLeft: '240px',
+          overflowY: 'auto',
+          background: '#e8e4dc',
+          padding: '40px 48px',
+        }}
       >
         {children}
-      </div>
+      </main>
     </div>
   );
 };

@@ -2,32 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg-base: #dedad2;
+  /* Backgrounds */
+  --color-bg:           #e8e4dc;
+  --color-sidebar:      #1a1412;
+  --color-card:         #ffffff;
+  --color-card-hover:   #f9f7f4;
+
+  /* RE/MAX Brand */
+  --color-brand-red:    #660000;
+  --color-brand-navy:   #000e35;
+  --color-active:       #660000;
+
+  /* Text */
+  --color-text-primary:   #1a1412;
+  --color-text-secondary: #6b6560;
+  --color-text-muted:     #9c958f;
+  --color-text-on-dark:   #f7f3ee;
+  --color-text-on-brand:  #ffffff;
+
+  /* Borders & Dividers */
+  --color-border:       #d4cfc8;
+  --color-border-light: #ece9e3;
+
+  /* Segment colours */
+  --color-segment-long-holder:    #660000;
+  --color-segment-active-looker:  #000e35;
+  --color-segment-investor:       #cc8800;
+  --color-segment-downsizer:      #006633;
+  --color-segment-upgrader:       #0066aa;
+  --color-segment-recent-mover:   #446688;
+  --color-segment-off-market:     #aa3300;
+  --color-segment-distressed:     #880000;
+
+  /* Legacy aliases kept for dashboard.tsx compatibility */
+  --bg-base: #e8e4dc;
   --bg-content: #e8e4dc;
   --bg-card: #ffffff;
-  --bg-card-hover: #faf9f6;
-  --border: rgba(0,14,53,0.10);
-  --border-strong: rgba(0,14,53,0.18);
-  --navy: #000e35;
-  --navy-60: rgba(0,14,53,0.6);
-  --navy-40: rgba(0,14,53,0.4);
-  --navy-20: rgba(0,14,53,0.15);
-  --navy-08: rgba(0,14,53,0.06);
+  --bg-card-hover: #f9f7f4;
+  --border: rgba(26,20,18,0.10);
+  --border-strong: rgba(26,20,18,0.18);
+  --navy: #1a1412;
+  --navy-60: rgba(26,20,18,0.6);
+  --navy-40: rgba(26,20,18,0.4);
+  --navy-20: rgba(26,20,18,0.15);
+  --navy-08: rgba(26,20,18,0.06);
   --darkred: #660000;
-  --red: #ff1200;
-  --blue: #0043ff;
-  --sidebar-bg: #f0ede6;
+  --sidebar-bg: #1a1412;
 }
 
 body {
-  background-color: var(--bg-base);
-  color: var(--navy);
-  font-family: 'Inter Tight', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-.font-data {
-  font-family: 'DM Mono', monospace;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.mono, .data-value, .font-data, [data-mono] {
+  font-family: 'DM Mono', 'Courier New', monospace;
 }
