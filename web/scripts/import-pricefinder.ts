@@ -36,8 +36,7 @@ const STREET_TYPE_MAP: Record<string, string> = {
   'HWY': 'Highway',
   'LN': 'Lane',
   'CT': 'Court',
-  'AV': 'Avenue',
-  'RD': 'Road'
+  'AV': 'Avenue'
 };
 
 // ============================================
@@ -162,7 +161,7 @@ interface ImportStats {
  * Excel serial dates are days since Dec 30, 1899
  */
 function excelSerialToDate(serial: number | null | undefined): string | null {
-  if (serial === null || serial === undefined || serial === '') {
+  if (serial === null || serial === undefined) {
     return null;
   }
   const epoch = new Date(1899, 11, 30); // December 30, 1899
