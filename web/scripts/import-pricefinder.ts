@@ -7,6 +7,11 @@
  * Processes PriceFinder .xls exports and merges with existing CoreLogic data
  */
 
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 import * as XLSX from 'xlsx';
 import * as fs from 'fs';
 import * as path from 'path';
