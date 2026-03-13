@@ -1,33 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-
 :root {
   /* Backgrounds */
-  --color-bg:           #e8e4dc;
-  --color-sidebar:      #1a1412;
-  --color-card:         #ffffff;
-  --color-card-hover:   #f9f7f4;
+  --color-bg:           #e8e4dc;  /* warm greige — main page background */
+  --color-sidebar:      #1a1412;  /* dark near-black — sidebar */
+  --color-card:         #ffffff;  /* pure white — floating cards */
+  --color-card-hover:   #f9f7f4;  /* very light warm white — card hover state */
 
   /* RE/MAX Brand */
-  --color-brand-red:    #660000;
-  --color-brand-navy:   #000e35;
-  --color-active:       #660000;
+  --color-brand-red:    #660000;  /* dark red — primary brand accent */
+  --color-brand-navy:   #000e35;  /* navy — secondary brand accent */
+  --color-active:       #660000;  /* active nav states, CTAs */
 
   /* Text */
-  --color-text-primary:   #1a1412;
-  --color-text-secondary: #6b6560;
-  --color-text-muted:     #9c958f;
-  --color-text-on-dark:   #f7f3ee;
-  --color-text-on-brand:  #ffffff;
+  --color-text-primary:   #1a1412;  /* near-black — primary body text */
+  --color-text-secondary: #6b6560;  /* warm mid-grey — secondary/meta text */
+  --color-text-muted:     #9c958f;  /* light warm grey — labels, placeholders */
+  --color-text-on-dark:   #f7f3ee;  /* warm off-white — text on dark sidebar */
+  --color-text-on-brand:  #ffffff;  /* pure white — text on brand red */
 
   /* Borders & Dividers */
-  --color-border:       #d4cfc8;
-  --color-border-light: #ece9e3;
+  --color-border:       #d4cfc8;  /* warm light grey — card borders, dividers */
+  --color-border-light: #ece9e3;  /* very light warm — subtle separators */
 
-  /* Segment colours */
+  /* Status / Segment colours */
   --color-segment-long-holder:    #660000;
   --color-segment-active-looker:  #000e35;
   --color-segment-investor:       #cc8800;
@@ -37,7 +37,7 @@
   --color-segment-off-market:     #aa3300;
   --color-segment-distressed:     #880000;
 
-  /* Legacy aliases kept for dashboard.tsx compatibility */
+  /* Legacy aliases — kept for dashboard.tsx compatibility */
   --bg-base: #e8e4dc;
   --bg-content: #e8e4dc;
   --bg-card: #ffffff;
@@ -53,6 +53,7 @@
   --sidebar-bg: #1a1412;
 }
 
+/* Base reset */
 body {
   background-color: var(--color-bg);
   color: var(--color-text-primary);
@@ -66,6 +67,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
 }
 
+/* Data/mono elements */
 .mono, .data-value, .font-data, [data-mono] {
   font-family: 'DM Mono', 'Courier New', monospace;
+}
+
+/* Remove default margin/padding reset that can interfere */
+*, *::before, *::after {
+  box-sizing: border-box;
 }

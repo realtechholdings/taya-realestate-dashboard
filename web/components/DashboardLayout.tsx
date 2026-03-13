@@ -7,6 +7,7 @@ import {
   Map,
   Building2,
   PieChart,
+  BarChart3,
   Settings,
 } from 'lucide-react';
 
@@ -20,7 +21,8 @@ const navItems = [
   { href: '/map',           label: 'Map View',      icon: Map },
   { href: '/properties',    label: 'Properties',    icon: Building2 },
   { href: '/segments',      label: 'Segments',      icon: PieChart },
-  { href: '/admin',         label: 'Admin',         icon: Settings },
+  { href: '/reports',       label: 'Reports',       icon: BarChart3 },
+  { href: '/settings',      label: 'Settings',      icon: Settings },
 ];
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
@@ -96,7 +98,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                     textDecoration: 'none',
                     borderLeft: isActive ? '3px solid #660000' : '3px solid transparent',
                     backgroundColor: isActive ? 'rgba(102,0,0,0.15)' : 'transparent',
-                    color: isActive ? '#f7f3ee' : '#f7f3ee',
+                    color: '#f7f3ee',
                     opacity: isActive ? 1 : 0.65,
                   }}
                   onMouseEnter={e => {

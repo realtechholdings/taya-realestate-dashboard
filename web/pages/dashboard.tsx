@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import DashboardLayout from '../components/DashboardLayout';
 import { Bell, Plus, Download, Phone, Mail } from 'lucide-react';
 
 const dailyActions = [
@@ -88,69 +87,15 @@ const summaryCards = [
 ];
 
 const Dashboard: React.FC = () => {
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
-    return () => clearInterval(timer);
-  }, []);
-
   const urgentCount = dailyActions.filter(a => a.status === 'urgent').length;
-  const formatDate = (d: Date) => d.toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <DashboardLayout>
+    <>
       <Head><title>Dashboard – Taya Real Estate CRM</title></Head>
-      
-      {/* Header */}
-      <div
-        className="flex items-center justify-between px-8 h-[72px] sticky top-0 z-10"
-        style={{
-          backgroundColor: '#e8e4dc',
-          borderBottom: '1px solid rgba(0,14,53,0.15)',
-        }}
-      >
-        <div>
-          <h1 className="text-xl" style={{ color: '#000e35', fontWeight: 700 }}>
-            Good morning, Taya
-          </h1>
-          <p className="text-xs mt-0.5" style={{ color: 'rgba(0,14,53,0.50)' }}>
-            {formatDate(currentTime)} · Merrimac QLD 4226
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <input
-            placeholder="Search contacts, properties..."
-            className="text-sm px-3 py-1.5 rounded-lg w-60 outline-none"
-            style={{
-              backgroundColor: '#ffffff',
-              border: '1px solid rgba(0,14,53,0.12)',
-              color: '#000e35',
-            }}
-          />
-          <button className="relative" style={{ color: 'rgba(0,14,53,0.45)' }}>
-            <Bell size={18} />
-            {urgentCount > 0 && (
-              <span
-                className="absolute -top-1 -right-1 w-2 h-2 rounded-full"
-                style={{ backgroundColor: '#660000' }}
-              />
-            )}
-          </button>
-          <button
-            className="flex items-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-lg transition-colors"
-            style={{ backgroundColor: '#660000', color: '#ffffff', fontWeight: 600 }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#880000')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#660000')}
-          >
-            <Plus size={14} />
-            Add Contact
-          </button>
-        </div>
-      </div>
 
-      <div className="px-8 pt-6 pb-20">
+      <div className="pb-20">
         {/* Stat cards */}
         <div className="grid grid-cols-4 gap-4 mb-5">
           {summaryCards.map(card => (
@@ -160,7 +105,6 @@ const Dashboard: React.FC = () => {
                 backgroundColor: '#ffffff',
                 borderRadius: '16px',
                 padding: '24px',
-                border: 'none',
                 boxShadow: '0 4px 20px rgba(0,14,53,0.12), 0 1px 4px rgba(0,14,53,0.08)',
                 transition: 'all 0.18s ease',
               }}
@@ -173,9 +117,7 @@ const Dashboard: React.FC = () => {
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              <p
-                style={{ fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,14,53,0.42)', marginBottom: '8px' }}
-              >
+              <p style={{ fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,14,53,0.42)', marginBottom: '8px' }}>
                 {card.label}
               </p>
               <p style={{ fontSize: '36px', fontWeight: 800, color: '#000e35', fontFamily: 'DM Mono, monospace', lineHeight: 1.1 }}>
@@ -200,10 +142,7 @@ const Dashboard: React.FC = () => {
             }}
           >
             <div className="flex items-center gap-2.5">
-              <span
-                className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{ backgroundColor: '#660000' }}
-              />
+              <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: '#660000' }} />
               <span className="text-sm" style={{ color: '#000e35' }}>
                 {urgentCount} contacts require immediate attention today
               </span>
@@ -219,25 +158,18 @@ const Dashboard: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#000e35' }}>
-                Today's Action List
+                Today&apos;s Action List
               </h2>
               <span
                 className="text-xs px-2 py-0.5 rounded-full"
-                style={{
-                  backgroundColor: 'rgba(0,14,53,0.07)',
-                  color: 'rgba(0,14,53,0.55)'
-                }}
+                style={{ backgroundColor: 'rgba(0,14,53,0.07)', color: 'rgba(0,14,53,0.55)' }}
               >
                 {dailyActions.length}
               </span>
             </div>
             <button
               className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg"
-              style={{
-                border: '1px solid rgba(0,14,53,0.15)',
-                color: 'rgba(0,14,53,0.55)',
-                backgroundColor: 'transparent',
-              }}
+              style={{ border: '1px solid rgba(0,14,53,0.15)', color: 'rgba(0,14,53,0.55)', backgroundColor: 'transparent' }}
             >
               <Download size={12} />
               Export List
@@ -249,7 +181,6 @@ const Dashboard: React.FC = () => {
             style={{
               backgroundColor: '#ffffff',
               borderRadius: '16px',
-              border: 'none',
               boxShadow: '0 4px 20px rgba(0,14,53,0.10), 0 1px 4px rgba(0,14,53,0.06)',
               overflow: 'hidden',
             }}
@@ -263,11 +194,8 @@ const Dashboard: React.FC = () => {
                 borderBottom: '1px solid rgba(0,14,53,0.10)',
               }}
             >
-              {['NAME & ADDRESS','SEGMENT','CONFIDENCE','VALUATION','TALKING POINT','LAST CONTACT','STATUS',''].map(h => (
-                <span
-                  key={h}
-                  style={{ fontSize: '10px', letterSpacing: '0.08em', fontWeight: 600, color: 'rgba(0,14,53,0.40)' }}
-                >
+              {['NAME & ADDRESS', 'SEGMENT', 'CONFIDENCE', 'VALUATION', 'TALKING POINT', 'LAST CONTACT', 'STATUS', ''].map(h => (
+                <span key={h} style={{ fontSize: '10px', letterSpacing: '0.08em', fontWeight: 600, color: 'rgba(0,14,53,0.40)' }}>
                   {h}
                 </span>
               ))}
@@ -282,87 +210,73 @@ const Dashboard: React.FC = () => {
               return (
                 <div
                   key={action.id}
-                  className="grid px-5 py-[18px] cursor-pointer transition-colors"
+                  className="grid px-5 cursor-pointer"
                   style={{
                     gridTemplateColumns: '2fr 1.1fr 0.9fr 1fr 1.6fr 0.8fr 1.1fr 80px',
+                    padding: '18px 20px',
                     borderBottom: i < dailyActions.length - 1 ? '1px solid rgba(0,14,53,0.06)' : 'none',
                     backgroundColor: isHovered ? 'rgba(0,14,53,0.025)' : 'transparent',
                     alignItems: 'center',
+                    transition: 'background 0.12s',
                   }}
                   onMouseEnter={() => setHoveredRow(action.id)}
                   onMouseLeave={() => setHoveredRow(null)}
                 >
                   <div>
                     <div style={{ fontSize: '14px', fontWeight: 700, color: '#000e35' }}>{action.name}</div>
-                    <div className="mt-0.5" style={{ fontSize: '11px', color: 'rgba(0,14,53,0.50)', fontFamily: 'DM Mono' }}>{action.address}</div>
+                    <div style={{ fontSize: '11px', color: 'rgba(0,14,53,0.50)', fontFamily: 'DM Mono, monospace', marginTop: '2px' }}>{action.address}</div>
                   </div>
 
                   <div>
-                    <span
-                      className="text-xs px-2.5 py-1 rounded-full"
-                      style={{
-                        backgroundColor: 'rgba(0,14,53,0.06)',
-                        color: 'rgba(0,14,53,0.7)'
-                      }}
-                    >
+                    <span className="text-xs px-2.5 py-1 rounded-full" style={{ backgroundColor: 'rgba(0,14,53,0.06)', color: 'rgba(0,14,53,0.7)' }}>
                       {action.segment}
                     </span>
                   </div>
 
                   <div>
-                    <span className="text-sm font-data" style={{ color: '#000e35' }}>{action.confidence}%</span>
-                    <div className="mt-1 h-1 w-16 rounded-full" style={{ backgroundColor: 'rgba(0,14,53,0.10)' }}>
-                      <div
-                        className="h-1 rounded-full"
-                        style={{ width: `${action.confidence}%`, backgroundColor: confColor }}
-                      />
+                    <span style={{ fontSize: '14px', fontWeight: 600, color: '#000e35', fontFamily: 'DM Mono, monospace' }}>{action.confidence}%</span>
+                    <div style={{ marginTop: '4px', height: '4px', width: '64px', borderRadius: '9999px', backgroundColor: 'rgba(0,14,53,0.10)' }}>
+                      <div style={{ height: '4px', borderRadius: '9999px', width: `${action.confidence}%`, backgroundColor: confColor }} />
                     </div>
                   </div>
 
-                  <div style={{ fontWeight: 700, color: '#000e35', fontFamily: 'DM Mono' }}>
+                  <div style={{ fontWeight: 700, color: '#000e35', fontFamily: 'DM Mono, monospace', fontSize: '13px' }}>
                     {action.valuationRange}
                   </div>
 
-                  <div className="text-xs pr-3" style={{ color: 'rgba(0,14,53,0.55)', lineHeight: 1.5 }}>
+                  <div style={{ fontSize: '12px', color: 'rgba(0,14,53,0.55)', lineHeight: 1.5, paddingRight: '12px' }}>
                     {action.talkingPoint}
                   </div>
 
-                  <div className="text-xs font-data" style={{ color: 'rgba(0,14,53,0.4)' }}>
+                  <div style={{ fontSize: '12px', color: 'rgba(0,14,53,0.4)', fontFamily: 'DM Mono, monospace' }}>
                     {action.lastContacted}
                   </div>
 
                   <div>
                     <span
-                      className="text-xs font-medium px-2.5 py-1 rounded-full"
                       style={{
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        padding: '4px 10px',
+                        borderRadius: '9999px',
                         backgroundColor: st.bg,
                         color: st.color,
-                        border: `1px solid ${st.border}`
+                        border: `1px solid ${st.border}`,
+                        whiteSpace: 'nowrap',
                       }}
                     >
                       {st.label}
                     </span>
                   </div>
 
-                  <div
-                    className="flex items-center gap-1.5 transition-opacity"
-                    style={{ opacity: isHovered ? 1 : 0 }}
-                  >
+                  <div className="flex items-center gap-1.5" style={{ opacity: isHovered ? 1 : 0, transition: 'opacity 0.12s' }}>
                     <button
-                      className="w-7 h-7 rounded-full flex items-center justify-center"
-                      style={{
-                        backgroundColor: 'rgba(0,14,53,0.07)',
-                        color: 'rgba(0,14,53,0.6)'
-                      }}
+                      style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'rgba(0,14,53,0.07)', color: 'rgba(0,14,53,0.6)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
                     >
                       <Phone size={12} />
                     </button>
                     <button
-                      className="w-7 h-7 rounded-full flex items-center justify-center"
-                      style={{
-                        backgroundColor: 'rgba(0,14,53,0.07)',
-                        color: 'rgba(0,14,53,0.6)'
-                      }}
+                      style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: 'rgba(0,14,53,0.07)', color: 'rgba(0,14,53,0.6)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
                     >
                       <Mail size={12} />
                     </button>
@@ -378,7 +292,6 @@ const Dashboard: React.FC = () => {
           className="flex items-center gap-8 px-6 py-4"
           style={{
             backgroundColor: '#ffffff',
-            border: 'none',
             boxShadow: '0 4px 20px rgba(0,14,53,0.10), 0 1px 4px rgba(0,14,53,0.06)',
             borderRadius: '16px',
           }}
@@ -390,20 +303,17 @@ const Dashboard: React.FC = () => {
           ].map((stat, i, arr) => (
             <React.Fragment key={stat.label}>
               <div>
-                <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'rgba(0,14,53,0.38)' }}>{stat.label}</p>
-                <p style={{ fontSize: '22px', fontWeight: 800, fontFamily: 'DM Mono', color: '#000e35' }}>{stat.value}</p>
+                <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(0,14,53,0.38)', marginBottom: '4px' }}>{stat.label}</p>
+                <p style={{ fontSize: '22px', fontWeight: 800, fontFamily: 'DM Mono, monospace', color: '#000e35' }}>{stat.value}</p>
               </div>
               {i < arr.length - 1 && (
-                <div
-                  className="w-px h-8 self-center"
-                  style={{ backgroundColor: 'rgba(0,14,53,0.10)' }}
-                />
+                <div style={{ width: '1px', height: '32px', backgroundColor: 'rgba(0,14,53,0.10)', alignSelf: 'center' }} />
               )}
             </React.Fragment>
           ))}
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 };
 
