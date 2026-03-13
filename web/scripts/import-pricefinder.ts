@@ -445,10 +445,14 @@ async function connectToDatabase(): Promise<void> {
   propertiesCollection = db.collection<PropertyDocument>(PROPERTIES_COLLECTION);
   issuesCollection = db.collection<ImportIssue>(ISSUES_COLLECTION);
   
-  // Create indexes for matching
-  await propertiesCollection.createIndex({ 'address.formatted': 1 });
-  await propertiesCollection.createIndex({ lotPlan: 1 });
-  await propertiesCollection.createIndex({ 'sources.corelogic': 1 });
+  // Create indexes for matching (ignore conflicts — indexes exist from P2A)
+  try {
+    await propertiesCollection.createIndex({ 'address.formatted': 1 });
+    await propertiesCollection.createIndex({ lotPlan: 1 });
+    await propertiesCollection.createIndex({ 'sources.corelogic': 1 });
+  } catch (err: any) {
+    if (err.codeName !== 'IndexKeySpecsConflict') throw err;
+  }
   
   console.log(`✅ Connected to ${DATABASE_NAME}`);
 }
@@ -534,6 +538,13 @@ async function processFile(filePath: string): Promise<{ matched: number; inserte
     
     try {
       const pfDoc = convertToPropertyDocument(pfRow);
+      
+      // Bug 1 fix: Skip rows with unparseable addresses
+      if (!pfDoc.address!.streetNumber || !pfDoc.address!.streetName) {
+        flagged++;
+        continue; // skip rows with unparseable addresses
+      }
+      
       const normalizedAddress = normalizeAddress(pfDoc.address!.formatted);
       const lotPlan = pfDoc.lotPlanPriceFinder || '';
       
@@ -729,6 +740,7 @@ async function mergeProperty(
 
 /**
  * Insert new property from PriceFinder (no CoreLogic match)
+ * Bug 2 fix: Handle duplicate key error by falling back to lot/plan merge
  */
 async function insertNewProperty(pfDoc: Partial<PropertyDocument>): Promise<void> {
   const doc: PropertyDocument = {
@@ -760,7 +772,43 @@ async function insertNewProperty(pfDoc: Partial<PropertyDocument>): Promise<void
     createdAt: new Date()
   };
   
-  await propertiesCollection.insertOne(doc);
+  try {
+    await propertiesCollection.insertOne(doc);
+  } catch (err: any) {
+    if (err.code === 11000) {
+      // Address already exists — try to merge via lot/plan
+      if (pfDoc.lotPlanPriceFinder) {
+        const mergeFields = {
+          ownerNamesPriceFinder: pfDoc.ownerNamesPriceFinder,
+          ownerMailingAddressRaw: pfDoc.ownerMailingAddressRaw,
+          salePrice: pfDoc.salePrice,
+          saleDate: pfDoc.saleDate,
+          saleType: pfDoc.saleType,
+          zoning: pfDoc.zoning,
+          governmentValuation: pfDoc.governmentValuation,
+          governmentValuationDate: pfDoc.governmentValuationDate,
+          pfGovernmentNumber: pfDoc.pfGovernmentNumber,
+          pfPdsId: pfDoc.pfPdsId,
+          parish: pfDoc.parish
+        };
+        
+        await propertiesCollection.updateOne(
+          { lotPlan: pfDoc.lotPlanPriceFinder },
+          { $set: { ...mergeFields, 'sources.pricefinder': true, updatedAt: new Date() } }
+        );
+      } else {
+        await recordIssue({
+          issueType: 'duplicate_suspect',
+          description: 'Duplicate address on insert, no lot/plan available for merge',
+          address: pfDoc.address!.formatted,
+          pfGovernmentNumber: pfDoc.pfGovernmentNumber,
+          source: 'pricefinder'
+        });
+      }
+    } else {
+      throw err;
+    }
+  }
 }
 
 // Helper to escape regex special characters
