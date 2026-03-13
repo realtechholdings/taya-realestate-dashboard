@@ -398,7 +398,7 @@ function convertToPropertyDocument(pfRow: PriceFinderRow): Partial<PropertyDocum
 
   return {
     address,
-    lotPlanPriceFinder: lotPlan,
+    lotPlanPriceFinder: lotPlan ?? undefined,
     beds: pfRow.bedrooms,
     baths: pfRow.bathrooms,
     cars: pfRow.carParks,
@@ -411,7 +411,7 @@ function convertToPropertyDocument(pfRow: PriceFinderRow): Partial<PropertyDocum
     saleDate: pfRow.lastSaleDate ? new Date(pfRow.lastSaleDate) : null,
     saleType: pfRow.lastSaleType,
     zoning: pfRow.zoning,
-    governmentValuation: pfRow.valuationAmount,
+    governmentValuation: pfRow.valuationAmount ?? undefined,
     governmentValuationDate: pfRow.valuationDate ? new Date(pfRow.valuationDate) : undefined,
     pfGovernmentNumber: pfRow.governmentNumber,
     pfPdsId: pfRow.pdsId || undefined,
